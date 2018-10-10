@@ -7,11 +7,15 @@
 <script src="{{ url_for('static', filename='../static/api.js') }}"></script>
 
 	<!-- landing page -->
-		Home Page
+	<div class="bg-secondary">
 
-		<div class="mx-auto" style="width: 400px;">
+		<div class="mx-auto container bg-light" style="width: 800px; height:1600px;">
 
-			<form method="POST" name="upload" enctype="multipart/form-data" action="/filter">
+			<div class="text-center">
+			<h2>Plank Filter Master!<h2><br>
+			</div>
+
+			<form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/filter">
 				<input type="file" id="img" name="img"/>
 
 				<br/>
@@ -33,6 +37,6 @@
 			<div id="filtered"></div>
 		</div>
 
-
+	</div>
 {% endblock %}
 
