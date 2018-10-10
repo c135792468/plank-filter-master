@@ -1,15 +1,38 @@
 {% extends 'layout.html' %}
 
+
+
 {% block body %}
+
+<script src="{{ url_for('static', filename='../static/api.js') }}"></script>
+
 	<!-- landing page -->
 		Home Page
 
 		<div class="mx-auto" style="width: 400px;">
-			<input type="file" name="img"/>
 
-			<input class="btn" type="submit" value="Filter 1">
-			<input class="btn" type="submit" value="Filter 2">
-			<input class="btn" type="submit" value="filter 3">
+			<form method="POST" name="upload" enctype="multipart/form-data" action="/filter">
+				<input type="file" id="img" name="img"/>
+
+				<br/>
+
+				<select id="filter" name="filter">
+					<option value="f1">Filter 1</option>
+					<option value="f2">Filter 2</option>
+					<option value="f3">Filter 3</option>
+				</select>
+				
+				<button id="submit_handlr" type="button">submit</button>
+
+				<!-- <input class="btn" id='f1' onClick="reply(this.id)" type="submit" value="Filter 1">
+				<input class="btn" id='f2' onClick="reply(this.id)" type="submit" value="Filter 2">
+				<input class="btn" id='f3' onClick="reply(this.id)" type="submit" value="filter 3"> -->
+			</form>
+
+
+			<div id="filtered"></div>
 		</div>
 
+
 {% endblock %}
+

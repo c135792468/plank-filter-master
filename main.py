@@ -1,17 +1,34 @@
-from flask import Flask, render_template, request
-from flask_uploads import UploadSet, IMAGES, configure_uploads
+from flask import Flask, render_template, request, url_for, jsonify
+import os
 app = Flask(__name__)
 
 
-photos = UploadSet('photos', IMAGES) #type of file to be uploaded <- IMAGES
-app.config['UPLOAD_PHOTOS_DEST'] = 'static/imgs'
+# photos = UploadSet('photos', IMAGES) #type of file to be uploaded <- IMAGES
+# app.config['UPLOAD_PHOTOS_DEST'] = './static/imgs'
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/filter', methods=['GET', 'POST'])
 def index():
-	# if request.method == 'POST' and 'img' in request.files:
-	# 	filename = photos.save(request.files[img])
-	# 	return filename
-	return render_template('index.html')
+	if(request.method == 'GET'):
+		return render_template('index.html')
+
+	elif(request.method == 'POST'):
+		ffile =	request.files["file"]
+		ffile.save(os.path.join('./static/imgs', ffile.filename))
+
+		filter = request.form.get("filter")
+
+		#apply filter to file
+		if(filter == "f1"):
+			print(filter) #replace this stuff later 
+		elif(filter == "f2"):
+			print(filter)
+		elif(filter == "f3"):
+			print(filter)
+
+
+		filtered_img = ""
+		return jsonify({"file": ffile.filename})
+	return ""
 
 if __name__ == '__main__':
 	app.run(debug=True)
