@@ -13,7 +13,7 @@ def index():
 
 	elif(request.method == 'POST'):
 		ffile =	request.files["file"]
-		ffile.save(os.path.join('./static/imgs', ffile.filename))
+		filepath = os.path.join('./static/imgs', ffile.filename)
 
 		filter = request.form.get("filter")
 
@@ -24,10 +24,14 @@ def index():
 			print(filter)
 		elif(filter == "f3"):
 			print(filter)
+		#after filter, save to static/imgs
+		#edit filepath to have new image name (after altered)
 
+		# filepath = os.path.join('./static/imgs', new-filename here)
 
-		filtered_img = ""
-		return jsonify({"file": ffile.filename})
+		ffile.save(filepath)
+
+		return jsonify({"file": filepath})
 	return ""
 
 if __name__ == '__main__':

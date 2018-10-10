@@ -16,7 +16,7 @@ $(() => {
             processData: false,
             success: (res) => {
                 console.log("pppp ", res.file)
-                $('#filtered').html("<img height=400 width=400 src='/./static/imgs/" + res.file + "'>")
+                $('#filtered').html("<img height=400 width=400 src='" + res.file + "'>")
             },
             error: (res) => {
                 console.log(res)
