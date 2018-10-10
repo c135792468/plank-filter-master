@@ -1,5 +1,8 @@
 from flask import Flask, render_template, request, url_for, jsonify
 import os
+from PIL import Image, ImageFilter
+import matplotlib.pyplot as plt
+
 app = Flask(__name__)
 
 
@@ -13,25 +16,32 @@ def index():
 
 	elif(request.method == 'POST'):
 		ffile =	request.files["file"]
-		filepath = os.path.join('./static/imgs', ffile.filename)
+		# filepath = os.path.join('./static/imgs/', ffile.filename)
 
 		filter = request.form.get("filter")
 
+		image = Image.open(ffile)
+
 		#apply filter to file
 		if(filter == "f1"):
-			print(filter) #replace this stuff later 
+			image = image.convert('L')
+			# plt.imshow()
 		elif(filter == "f2"):
-			print(filter)
+			image = image.filter(ImageFilter.GaussianBlur(20))
 		elif(filter == "f3"):
-			print(filter)
+			image = image.filter(ImageFilter.CONTOUR)
+
+
+			#print(filter)
 		#after filter, save to static/imgs
 		#edit filepath to have new image name (after altered)
 
-		# filepath = os.path.join('./static/imgs', new-filename here)
-
-		ffile.save(filepath)
+		filepath = os.path.join('./static/imgs', ffile.filename)
+		image.save(filepath)
 
 		return jsonify({"file": filepath})
+
+
 	return ""
 
 if __name__ == '__main__':
