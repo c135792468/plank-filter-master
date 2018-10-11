@@ -40,9 +40,10 @@ def index():
 		#after filter, save to static/imgs
 		#edit filepath to have new image name (after altered)
 
-		
+		ts = time.time()
+		print(ts)
 
-		filepath = os.path.join('./static/imgs', "poe" + ffile.filename)
+		filepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
 		image.save(filepath)
 
 
