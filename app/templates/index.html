@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>PlankFM</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../static/css/index.css">
+	</head>
+	<body>
+		<!--Banner-->
+		<div class="banner">
+			<div class="bannerText">
+				<h1>Welcome to Plank Filter Master!</h1>
+			</div>
+		</div>
+
+		<!--Form for getting the picture-->
+		<form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/">
+			<!--Getting the file-->
+			<input type="file" id="img" name="img">
+
+			<!--Selecting a Filter-->
+			<br/>
+			<select id="filter" name="filter">
+				<option value="f1">Black and White</option>
+				<option value="f2">Blur</option>
+				<option value="f3">Contour</option>
+			</select>
+			<button id="submit_handlr" type="button">submit</button>
+		</form>
+
+		<!--The display of the picture after filter-->
+		<br/><br/><br/>
+		<div class="text-center" id="filtered" >
+			<img height=400 width=400 src="{{url_for('static',filename='IMAGES/wood.jpg')}}" />
+		</div>
+
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript" src="../static/js/index.js"></script>
+	</body>
+</html>
+
