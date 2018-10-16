@@ -38,8 +38,11 @@ def index():
 			image = image.filter(ImageFilter.CONTOUR)
 
 
+		ts = time.time()
+		filepath = os.path.join('./static/IMAGES', str(ts) + ffile.filename)
+
 		#filepath = os.path.join(target, ffile.filename)
-		filepath = os.path.join('./static/IMAGES', ffile.filename)
+		#filepath = os.path.join('./static/IMAGES', ffile.filename)
 		image.save(filepath)
 		print(filepath)
 
