@@ -17,18 +17,21 @@
 		</div>
 
 		<!--Form for getting the picture-->
-		<form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/">
+		<form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/">	
 			<!--Getting the file-->
 			<input type="file" id="img" name="img">
-
 			<!--Selecting a Filter-->
 			<br/>
 			<select id="filter" name="filter">
+				<option value="og">Original</option>
 				<option value="f1">Black and White</option>
 				<option value="f2">Blur</option>
 				<option value="f3">Contour</option>
+				<option value="f4">EDGE_ENHANCE</option>
+				<option value="f5">EMBOSS</option>
+				<option value="f6">FIND_EDGES</option>
 			</select>
-			<button id="submit_handlr" type="button">submit</button>
+			<!--<button id="submit_handlr" type="button">submit</button>-->
 		</form>
 
 		<!--The display of the picture after filter-->
