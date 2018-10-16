@@ -8,7 +8,9 @@ import matplotlib.pyplot as plt
 
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))#the path name of our project
-
+#photos = UploadSet('photos', IMAGES)
+#app.config['UPLOADED_PHOTOS_DEST'] = 'static/img'
+#configure_uploads(app, photos)
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -37,7 +39,7 @@ def index():
 
 
 		#filepath = os.path.join(target, ffile.filename)
-		filepath = os.path.join(target, ffile.filename)
+		filepath = os.path.join('./app/static/IMAGES', ffile.filename)
 		image.save(filepath)
 		print(filepath)
 

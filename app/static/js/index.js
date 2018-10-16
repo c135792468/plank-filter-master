@@ -14,8 +14,7 @@ $(document).ready(function() {
             contentType: false,
             processData: false,
             success: (res) => {
-                console.log("success");
-                console.log(res.file);
+                console.log("success Ajax");
                 $('#filtered').html("<img height=400 width=400 src='" + res.file + "'>")
             },
             error: (res) => {

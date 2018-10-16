@@ -1,0 +1,6 @@
+How to use the application:
+1.Go into the app folder
+2.export FLASK_APP=route.py(to enable development mode run export FLASK_ENV=developmeny)
+3.Go to the link
+4.upload your picture
+5.select a filter
