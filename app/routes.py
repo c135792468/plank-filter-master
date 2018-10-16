@@ -39,7 +39,7 @@ def index():
 
 
 		#filepath = os.path.join(target, ffile.filename)
-		filepath = os.path.join('./app/static/IMAGES', ffile.filename)
+		filepath = os.path.join('./static/IMAGES', ffile.filename)
 		image.save(filepath)
 		print(filepath)
 
