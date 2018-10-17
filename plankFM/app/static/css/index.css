@@ -1,0 +1,28 @@
+body{
+	background-image: url("background/background.jpg");
+	background-size:cover;
+	background-repeat: no-repeat;
+	height: 100%;
+	width:100%;
+	z-index: -10;
+}
+
+.banner{
+	background-color: black;
+
+	text-align: center;
+	width:70%;
+	height:10%;
+	padding: 20px;
+	margin:0 auto;
+	padding: 50px;
+	opacity: 0.5;
+	z-index: -1;
+}
+
+.bannerText{
+	font-family: "Times New Roman";
+	color:white;
+	z-index: 1;
+
+}
