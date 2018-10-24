@@ -3,7 +3,7 @@
 # Retro Notes
 +What worked well\
 -What didn't work well\
-^What could have been done differently
+^What should be done differently
 
 [10/17/18]\
   (+) Wasn't much work to do \
