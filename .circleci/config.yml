@@ -21,7 +21,7 @@ jobs:
     docker:
       - image: buildpack-deps:trusty
     working_directory: ~/plank-filter-master
-      #- checkout
+      - checkout
       - run:
           name: Deploy Master to Heroku
           command: |
