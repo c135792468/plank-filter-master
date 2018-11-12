@@ -56,9 +56,10 @@ def index():
 
 		return jsonify({"file": filepath})
 
+@app.route('/plank')
+def add():
+	return render_template('plank.html')
 	
-
-
 
 if __name__ == '__main__':
 	app.run(debug=True)
