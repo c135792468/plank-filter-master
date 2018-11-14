@@ -1,10 +1,11 @@
-from flask import Flask, render_template, request, url_for, jsonify, make_response, redirect
+from flask import render_template, request, url_for, jsonify, make_response, redirect
 import os
 from PIL import Image, ImageFilter
 import matplotlib.pyplot as plt
 import time
+from app import app
 
-app = Flask(__name__)
+
 
 @app.route('/filter', methods=['GET', 'POST'])
 def index():
@@ -37,7 +38,7 @@ def index():
 	return ""
 
 @app.route('/lobby')
-def add():
+def lobby():
     name = request.cookies.get('name')
     print(name)
     return render_template('plank.html')
@@ -50,6 +51,7 @@ def getName():
         response.set_cookie('name', name)
 
         return response
+
     elif(request.method == 'GET'):
         return render_template('enter-name.html')
 

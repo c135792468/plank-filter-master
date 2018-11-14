@@ -1,2 +1,3 @@
 venv
 static/imgs
+app/__pycache__
