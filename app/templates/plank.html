@@ -7,6 +7,6 @@
 		<canvas id="myCanvas" width="600" height="480"></canvas>
     </div>
     
-    <script src="{{ url_for('static', filename='../app/static/show-multiple-users.js') }}"></script>
-    <script src="{{ url_for('static', filename='../app/static/canvas-animation.js') }}"></script>
+    <script type='module' src="{{ url_for('static', filename='../static/test-animate-class.js') }}"></script>
+    <script src="{{ url_for('static', filename='../static/show-multiple-users.js') }}"></script>
 {% endblock %}

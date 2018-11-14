@@ -13,17 +13,14 @@ var spriteY = 460;
 var userName = "Username"
 var score = 0;
 
-//get cookie for username
-
-
 
 
 //listen for key down button press
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keydown", upKeyHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
-//moves the paddle
-function keyDownHandler(e) {
+
+function keyDownHandler(e) { 
     if(e.keyCode == 39) {
         rightPressed = true;
     }
