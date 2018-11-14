@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, url_for, jsonify
+from flask import Flask, render_template, request, url_for, jsonify, make_response, redirect
 import os
 from PIL import Image, ImageFilter
 import matplotlib.pyplot as plt
@@ -14,7 +14,6 @@ def index():
 	elif(request.method == 'POST'):
 		ffile =	request.files["file"]
 		print("file: ", ffile.filename)
-		# filepath = os.path.join('./static/imgs/', ffile.filename)
 
 		filter = request.form.get("filter")
 		image = Image.open(ffile)
@@ -37,9 +36,22 @@ def index():
 
 	return ""
 
-@app.route('/')
+@app.route('/lobby')
 def add():
-	return render_template('plank.html')
+    name = request.cookies.get('name')
+    print(name)
+    return render_template('plank.html')
+
+@app.route('/', methods=["GET", "POST"])
+def getName():
+    if(request.method == "POST"):
+        name = request.form["name"]
+        response = make_response(redirect('/lobby'))
+        response.set_cookie('name', name)
+
+        return response
+    elif(request.method == 'GET'):
+        return render_template('enter-name.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)
