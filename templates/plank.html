@@ -1,0 +1,10 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+	<!-- landing page -->
+	<div>
+		<canvas id="myCanvas" width="600" height="480"></canvas>
+    </div>
+    
+    <script src="{{ url_for('static', filename='../static/canvas-animation.js') }}"></script>
+{% endblock %}

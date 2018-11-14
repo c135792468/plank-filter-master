@@ -21,13 +21,10 @@ def index():
 		print(filter)
 		#apply filter to file
 		if(filter == "f1"):
-			print("HERE!!!")
 			image = image.convert('L')
 		elif(filter == "f2"):
-			print("filter 2")
 			image = image.filter(ImageFilter.GaussianBlur(20))
 		elif(filter == "f3"):
-			print("filter3")
 			image = image.filter(ImageFilter.CONTOUR)
 
 		ts = time.time()
@@ -39,6 +36,10 @@ def index():
 
 
 	return ""
+
+@app.route('/')
+def add():
+	return render_template('plank.html')
 
 if __name__ == '__main__':
 	app.run(debug=True)
