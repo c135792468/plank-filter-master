@@ -9,8 +9,7 @@ var ctx = canvas.getContext("2d");
 
 let username = "newuser"
 var curr_users = []
-
-var position = {x:295, y: 460}
+curr_users.push({socketid: socket.id, name: username, x:295 , y:460})
 
 var animate = new Animate(canvas, ctx, username, socket)
 
@@ -19,31 +18,48 @@ socket.on('connect', () => {
     //so user only does it once when they connect for the first time
     if(!connected){
         //add to client side users and server side
-        curr_users.push({name: username, x:295 , y:460})
-        // curr_users.push({name:"fodder", x:320, y:300})
         socket.emit('new-user', "newuser")
         connected = true
 
         setInterval(draw, 10)
     }
 
-    socket.on('new-user', (user) => {
-        console.log("got new user", user.name);
-        curr_users.push({name:user.name, x:user.x, y:user.y})
-
-        // animate.drawName(user.coords.x, user.coords.y, user.name)
-        // animate.drawSprite(user.coords.x, user.coords.y)
+    socket.on('get-curr-users', (users) => {
+        console.log("got all current users");
+        curr_users.push(...users)
     })
 
-    // socket.on('update-canvas', (users) => {
-    //     //whenever any other players move, update thhier positions
-    //     for(let user of users){
-    //         if(user.name != username){
-    //             animate.drawName(user.coords.x, user.coords.y, user.name)
-    //             animate.drawSprite(user.coords.x, user.coords.y)
-    //         }
-    //     }
-    // })
+    socket.on('new-user', (user) => {
+        console.log("got new user", user.name);
+        curr_users.push({
+            socketid: user.socketid, 
+            name:user.name, 
+            x:user.x, y:user.y
+        })
+    })
+
+    socket.on('update-canvas', (user) => {
+        //whenever any other players move, update thhier positions
+        for(let key of curr_users){
+            if(key.socketid == user.socketid){
+                key.x = user.x
+                key.y = user.y
+                break
+            }
+        }
+    })
+
+    socket.on('disconnected', (user) => {
+        console.log("user disconnected");
+        //remove disconnected user 
+        for(let key of curr_users){
+            if(key.name == user.name){
+                let item = curr_users.indexOf(key)
+                curr_users.splice(item, 1)
+                break
+            }
+        }
+    })
 
 })
 
@@ -62,7 +78,7 @@ function draw(){
         animate.drawName(user.name, user.x, user.y) 
         animate.drawSprite(user.x, user.y)   
     }
-    
+
     animate.moveX()
     curr_users[0].x = animate.spriteX
 
@@ -70,7 +86,5 @@ function draw(){
     curr_users[0].y = animate.spriteY
 
 }
-//add list of alll other clients' positions as well
-//the listener should update those positions
-//have the draw function update for each person in the list
+
 

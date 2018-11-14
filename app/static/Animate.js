@@ -127,18 +127,17 @@ class Animate{
         if(this.spriteX >= this.ballRadius && this.spriteX <= this.canvas.width-this.ballRadius){
             if(this.rightPressed == true) {
                 this.spriteX -= this.moveRight;
-                // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
+                this.socket.emit('moved', {x:this.spriteX, y:this.spriteY})
             } else if(this.leftPressed == true) {
                 this.spriteX -= this.moveLeft;
-                // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
+                this.socket.emit('moved', {x:this.spriteX, y:this.spriteY})
             }
         } else if (this.spriteX >= this.canvas.width-this.ballRadius) {
             this.spriteX -= this.moveLeft;
-            // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
+            this.socket.emit('moved', {x:this.spriteX, y:this.spriteY})
         } else if (this.spriteX <= this.ballRadius) {
             this.spriteX -= this.moveRight;
-            // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-
+            this.socket.emit('moved', {x:this.spriteX, y:this.spriteY})
         }
     }
 
