@@ -7,6 +7,5 @@ from flask_socketio import SocketIO, emit
 
 from app import app
 
-io = SocketIO(app)
 
 

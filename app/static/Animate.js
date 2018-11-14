@@ -1,11 +1,9 @@
 
 class Animate{
-    constructor(canvas, context, username, socket){
+    constructor(canvas, context, socket){
         this.canvas = canvas
         this.ctx = context
         this.socket = socket
-
-        this.username = username
 
         this.leftPressed = false
         this.rightPressed = false
@@ -24,8 +22,8 @@ class Animate{
         this.keyDownHandler = this.keyDownHandler.bind(this)
         this.upKeyHandler = this.upKeyHandler.bind(this)
         this.keyUpHandler = this.keyUpHandler.bind(this)
-        this.draw = this.draw.bind(this)
         this.moveY = this.moveY.bind(this)
+
         
         this.createEventListeners()
     }
@@ -62,11 +60,11 @@ class Animate{
             this.leftPressed = false;
         }
     }
-    drawName() {
-        this.ctx.font = "12px Arial";
-        this.ctx.fillStyle = "#0095DD";
-        this.ctx.fillText(this.username, this.spriteX-10, this.spriteY-15);
-    }
+    // drawName() {
+    //     this.ctx.font = "12px Arial";
+    //     this.ctx.fillStyle = "#0095DD";
+    //     this.ctx.fillText(this.username, this.spriteX-10, this.spriteY-15);
+    // }
 
     drawPressed() {
         this.ctx.font = "16px Arial";
@@ -194,96 +192,6 @@ class Animate{
             this.spriteY += this.gravity;
         }
     }
-
-    
-    draw() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.drawPressed();
-        this.drawJumpForce();
-        this.drawLanded();
-        // this.drawSprite();
-        this.drawName();
-        this.drawPF0();
-        this.drawPF1();
-        this.drawPF2();
-        //Gravity on / Gravity off
-        if(this.isLanded){
-            this.gravity = 0;
-        } else if (this.spriteY <= this.canvas.height-this.ballRadius) {
-            this.gravity = 3;
-        } else {
-            this.gravity = 0;
-        }
-        //Sprite Y Axis movement + Object collision
-        if(this.spriteY > 0){
-            if(this.jumpForce < 0) {
-                this.spriteY += this.jumpForce;
-                this.jumpForce += 0.1;
-                // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name:this.username})
-            } else if (this.jumpForce > 0 && this.jumpForce < 2) {
-                this.spriteY += this.jumpForce;
-                this.jumpForce += 0.1;
-                // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-            } else if (this.spriteY < this.canvas.height-this.ballRadius) {
-                //Object Collision Data here
-                if (this.spriteY >= 450 && this.spriteY <= 455) {
-                    if(this.spriteX >= 390 && this.spriteX <= 420){
-                        this.spriteY = 450;
-                        this.isLanded = true;
-                        // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-
-                    } else {
-                        this.isLanded = false;
-                    }
-                } 
-                if(this.spriteY >= 390 && this.spriteY <= 395){
-                    if(this.spriteX >= 450 && this.spriteX <= 530){
-                        this.spriteY = 390;
-                        this.isLanded = true;
-                        // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-                    } else {
-                        this.isLanded = false;
-                    }
-                }
-                if(this.spriteY >= 340 && this.spriteY <= 345){
-                    if(this.spriteX >= 300 && this.spriteX <= 380){
-                        this.spriteY = 340;
-                        this.isLanded = true;
-                        // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-                    } else {
-                        this.isLanded = false;
-                    }
-                }
-                //Gravity
-                this.spriteY += this.gravity;
-                // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-            } else {
-                this.isLanded = true;
-            }
-        } else {
-            this.jumpForce = 2;
-            this.spriteY += this.gravity;
-            // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-        }
-        //Sprite X Axis movement
-        if(this.spriteX >= this.ballRadius && this.spriteX <= this.canvas.width-this.ballRadius){
-            if(this.rightPressed == true) {
-                this.spriteX -= this.moveRight;
-                // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-            } else if(this.leftPressed == true) {
-                this.spriteX -= this.moveLeft;
-                // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-            }
-        } else if (this.spriteX >= this.canvas.width-this.ballRadius) {
-            this.spriteX -= this.moveLeft;
-            // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-        } else if (this.spriteX <= this.ballRadius) {
-            this.spriteX -= this.moveRight;
-            // this.socket.emit('moved', {x:this.spriteX, y:this.spriteY, name: this.username})
-
-        }
-    }
-
 
 }
 

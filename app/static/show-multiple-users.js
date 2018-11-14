@@ -7,18 +7,26 @@ let connected = false
 var canvas = document.getElementById("myCanvas");
 var ctx = canvas.getContext("2d");
 
-let username = "newuser"
-var curr_users = []
-curr_users.push({socketid: socket.id, name: username, x:295 , y:460})
 
-var animate = new Animate(canvas, ctx, username, socket)
+//add player who just connected
+var curr_users = []
+// curr_users.push({socketid: socket.id, name: username, x:295 , y:460})
+
+//create class to be able to handle animations
+var animate = new Animate(canvas, ctx, socket)
+
 
 socket.on('connect', () => {
     console.log("connecteed here eys");
     //so user only does it once when they connect for the first time
     if(!connected){
+        console.log("cookies:", document.cookie);
+        let cookies = document.cookie
+        var username = cookies.substring(9, cookies.length-2)
+        curr_users.push({socketid: socket.id, name: "", x:295 , y:460})
+
         //add to client side users and server side
-        socket.emit('new-user', "newuser")
+        socket.emit('new-user', cookies)
         connected = true
 
         setInterval(draw, 10)
@@ -79,6 +87,7 @@ function draw(){
         animate.drawSprite(user.x, user.y)   
     }
 
+    //update position of user locally
     animate.moveX()
     curr_users[0].x = animate.spriteX
 
@@ -87,4 +96,4 @@ function draw(){
 
 }
 
-
+export default socket
