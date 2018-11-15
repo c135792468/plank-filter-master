@@ -5,7 +5,7 @@
 -What didn't work well\
 ^What should be done differently
 
-[10/17/18]\
+[11/14/18]\
   (+) It worked\
   (+) There were like 600 bugs but they were fixed\
   (+) We finished our presentation and had a product to present\
