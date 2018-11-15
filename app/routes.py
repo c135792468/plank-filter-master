@@ -13,24 +13,29 @@ def index():
 	elif(request.method == 'POST'):
 		ffile =	request.files["file"]
 		print("file: ", ffile.filename)
+		# filepath = os.path.join('./static/imgs/', ffile.filename)
 
 		filter = request.form.get("filter")
 		image = Image.open(ffile)
 		print(filter)
 		#apply filter to file
 		if(filter == "f1"):
+			print("HERE!!!")
 			image = image.convert('L')
 		elif(filter == "f2"):
+			print("filter 2")
 			image = image.filter(ImageFilter.GaussianBlur(20))
 		elif(filter == "f3"):
+			print("filter3")
 			image = image.filter(ImageFilter.CONTOUR)
 
 		ts = time.time()
 
-		filepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
+		filepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
+		print(filepath)
 		image.save(filepath)
-
-		return jsonify({"file": filepath})
+		openfilepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
+		return jsonify({"file": openfilepath})
 
 
 	return ""
