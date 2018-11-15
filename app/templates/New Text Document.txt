@@ -1,7 +1,0 @@
-    <script>
-	var canvas = document.getElementById("myCanvas");
-	var ctx = canvas.getContext("2d");
-	var image = new Image();
-	image.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Harrods_at_Night%2C_London_-_Nov_2012.jpg/800px-Harrods_at_Night%2C_London_-_Nov_2012.jpg'
-	ctx.drawImage(image, 0,0);
-	</script>
