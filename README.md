@@ -5,6 +5,8 @@
 -What didn't work well\
 ^What should be done differently
 
+-------------------------------------------------------
+
 [10/17/18]\
   (+) Wasn't much work to do \
   (+) Assignment was easy and straightforward\
