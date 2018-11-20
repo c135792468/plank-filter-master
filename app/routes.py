@@ -42,9 +42,9 @@ def index():
 
 @app.route('/lobby')
 def lobby():
-    name = request.cookies.get('name')
-    print(name)
-    return render_template('plank.html')
+        name = request.cookies.get('name')
+        print(name)
+        return render_template('plank.html', name_=name)
 
 @app.route('/', methods=["GET", "POST"])
 def getName():

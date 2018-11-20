@@ -6,17 +6,30 @@
 	<div id = 'canvasBackGround'>
 		<canvas id="myCanvas" width="600" height="480"></canvas>
 	</div>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	var socket = io.connect('http://127.0.0.1:5000');
+	socket.on('message', function(msg) {
+		$("#messages").append('<li>'+msg+'</li>');
+	});
+	$('#sendbutton').on('click', function() {
+		socket.send("{{ name_ }}" + ":" + $('#myMessage').val());
+		$('#myMessage').val('');
+	});
+});
+</script>
     <div class="content">
         <ul id="messages"></ul>
     </div>
 
-    <!---<input type="text" placeholder="name" id="name" >--->
+
     <br>
     <input type="text" placeholder="message" id="myMessage">
     <button id="sendbutton">Send</button>
     
     <!-- <script type='module' src="{{ url_for('static', filename='../static/test-animate-class.js') }}"></script> -->
     <script type='module' src="{{ url_for('static', filename='../static/show-multiple-users.js') }}"></script>
-    <script type='module' src="{{ url_for('static', filename='../static/chat.js') }}"></script>
+   
 
 {% endblock %}
