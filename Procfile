@@ -1,1 +1,1 @@
-web: gunicorn -w 1 socket-logic:app
+web: python socket-logic.py
