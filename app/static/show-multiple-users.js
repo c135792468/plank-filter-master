@@ -1,7 +1,7 @@
 import Animate from './Animate.js'
 
 //change to heroku pge later on
-const socket = io.connect('http://127.0.0.1:5000')
+const socket = io.connect('https://plank-filter-master.herokuapp.com/')
 let connected = false
 
 var canvas = document.getElementById("myCanvas");
