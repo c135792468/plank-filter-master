@@ -3,3 +3,4 @@ gunicorn == 19.6.0
 Flask_SocketIO 
 eventlet
 Pillow
+matplotlib
