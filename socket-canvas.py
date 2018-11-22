@@ -1,7 +1,6 @@
 from flask import request
-from flask_socketio import SocketIO, emit
+from flask_socketio import SocketIO, emit, send
 from app import app
- 
 io = SocketIO(app)
 
 users = []
@@ -41,14 +40,15 @@ def disconnect():
 message = []
 @io.on('message')
 def Message(msg):
-        print('Message: ' + msg)
-        message.append(msg)
-        emit(msg, broadcast=True)
+    print('Message: ' + msg)
+    message.append(msg)
+    send(msg, broadcast=True)
 
 @io.on('connect')
 def connect():
-        for i in message:
-            emit(i)
+    send('New User has Connected')
+    for i in message:
+        send(i)
 
 if __name__ == '__main__':
     # app.run(debug=True)
