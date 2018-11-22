@@ -9,7 +9,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-	var socket = io.connect('http://127.0.0.1:5000');
+	var socket = io.connect('https://plank-filter-master.herokuapp.com/');
 	socket.on('message', function(msg) {
 		$("#messages").append('<li>'+msg+'</li>');
 	});
