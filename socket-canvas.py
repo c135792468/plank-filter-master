@@ -51,9 +51,9 @@ def connect():
         send(i)
 
 if __name__ == '__main__':
-    # app.run(debug=True)
+    app.run()
     # run eventlet server
-    io.run(app)
+    # io.run(app)
     
 
 
