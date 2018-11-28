@@ -38,7 +38,7 @@ Event handlers through SocketIO
 > If any client has moved, update their position server side
 
 `disconnect`
-> Updates the canvas in the case of a client leaving the room. Removes their sprite from the canvas and from the backend
+> Updates the canvas in the case of a client leaving the room. Removes the user from pool of users in the backend
 
 `message`
 > TODO
