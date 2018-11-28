@@ -41,7 +41,10 @@ Event handlers through SocketIO
 > Updates the canvas in the case of a client leaving the room. Removes the user from pool of users in the backend
 
 `message`
-> TODO
+> Store the received message into a list and the the message to all the player thats connected to chat
+
+`connect`
+> When a new player has connected to chat send the stored messages to the new player
 
 ### Client Side
 
@@ -62,3 +65,10 @@ Event handlers through SocketIO
 
 `draw()`
 > Should be called on a set interval. Re-renders the client's canvas with sprites, their names, as well as anytihng else drawn.
+
+`message()`
+>When receive message from the server append message
+
+`onClick()`
+>Send input message to server 
+
