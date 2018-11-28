@@ -61,13 +61,14 @@ Event handlers through SocketIO
 `disconnected(user)`
 > Notify the client that `user` has disconnected. Removes user from current pool of users and updates the canvas accordingly.
 
+`message()`
+>When receive message from the server append message
+
 ------------------------------------------------------------------------
 
 `draw()`
 > Should be called on a set interval. Re-renders the client's canvas with sprites, their names, as well as anytihng else drawn.
 
-`message()`
->When receive message from the server append message
 
 `onClick()`
 >Send input message to server 
