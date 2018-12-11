@@ -69,7 +69,23 @@ Event handlers through SocketIO
 `draw()`
 > Should be called on a set interval. Re-renders the client's canvas with sprites, their names, as well as anytihng else drawn.
 
-
 `onClick()`
 >Send input message to server 
 
+------------------------------------------------------------------------
+
+## Database and Users
+Data is stored in MongoDB hosted by mLab
+
+### Server Side
+`PyMongo`
+> A Python distribution containing tools for working with MongoDB
+
+`bcrypt`
+> A password hashing functionality, the password stored on the database will be hashed. Passwords are secure even if the database is compromised
+
+`login()`
+> Submits a POST request with entered user information that is compared with what is stored in the database. Username functions as a unique key. If the username and password entered match. A user is provided with a session granting access to the website.
+
+`register()`
+> Submits a POST request with entered user information that is compared with what is stored in the database. Username functions as a unique key. If the username does not trigger a conflict. A user account is created and the user is provided with a session granting access to the website.
