@@ -4,3 +4,4 @@ Flask_SocketIO
 eventlet
 Pillow
 matplotlib
+flask-pymongo
