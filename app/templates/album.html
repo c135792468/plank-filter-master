@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title> Album </title>
+	</head>
+    <body>
+        list of images name:
+        {{image_names}}
+    	<div class = "contain">
+				{%for image in image_names%}
+    			<img src="{{url_for ('static', filename='./imgs/' + image)}}"
+    			style="background-size:cover; background-position:center; height:200px; width:200px;">
+    			{% endfor %}
+		</div>
+    </body>
+</html>

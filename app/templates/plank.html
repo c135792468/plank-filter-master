@@ -1,23 +1,22 @@
 {% extends 'layout.html' %}
 
 {% block body %}
+	{% include 'index.html' %}
+	</script>
     <!-- landing page -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js'></script>
-    <script type="text/javascript">
-	$(document).ready(function() {
-		var socket = io.connect('https://plank-filter-master.herokuapp.com/');
-		socket.on('message', function(msg) {
-			$("#messages").append('<li>'+msg+'</li>');
-		});
-		$('#sendbutton').on('click', function() {
-			socket.send("{{ name_ }}" + ":" + $('#myMessage').val());
-			$('#myMessage').val('');
-		});
+<script type="text/javascript">
+$(document).ready(function() {
+	var socket = io.connect('https://plank-filter-master.herokuapp.com/');
+	socket.on('message', function(msg) {
+		$("#messages").append('<li>'+msg+ '</li>');
 	});
-	</script>
-	<!-- <script type='module' src="{{ url_for('static', filename='../static/test-animate-class.js') }}"></script> -->
-    <script type='module' src="{{ url_for('static', filename='../static/show-multiple-users.js') }}"></script>
-
+	$('#sendbutton').on('click', function() {
+		socket.send("{{ name_ }}" + ":" + $('#myMessage').val());
+		$('#myMessage').val('');
+	});
+});
+</script>
     <div style="margin: 0 auto; width: 1000px;">
 		<div id = 'canvasBackGround' style="display: inline-block;">
 			<canvas id="myCanvas" width="600" height="480"></canvas>
@@ -33,4 +32,9 @@
    	</div>
    	<br>
    
+    
+    <!-- <script type='module' src="{{ url_for('static', filename='../static/test-animate-class.js') }}"></script> -->
+    <script type='module' src="{{ url_for('static', filename='../static/show-multiple-users.js') }}"></script>
+   
+
 {% endblock %}

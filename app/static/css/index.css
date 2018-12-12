@@ -1,8 +1,16 @@
-.content{
+#messages {
 	border:1px sold #A9F5A9;
 	width:300px;
 	height:300px;
 	overflow:auto;
+}
+
+#myCanvas{
+	background-image:url('');
+	background-size:cover;
+	background-position: center;
+	height:480px;
+	width:600px;
 }
 
 

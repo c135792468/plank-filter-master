@@ -1,7 +1,3 @@
-{% extends 'layout.html' %}
-
-{% block body %}
-
 <script src="{{ url_for('static', filename='../static/api.js') }}"></script>
 
 	<!-- landing page -->
@@ -10,14 +6,14 @@
 		<div class="mx-auto container bg-light" style="width: 800px; height:1000px;">
 
 			<div class="text-center">
-			<h2>Plank Filter Master!<h2><br>
+			<h2>Plank Filter Masterf!<h2><br>
 			</div>
 
 			<form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/filter">
-				<input type="file" id="img" name="img"/>
+				<input type="file" id="img" name="img" onchange="readURL(event)" />
 
 				<br/>
-
+				<input type="text" id="album" name="album" placeholder="album"/>
 				<select id="filter" name="filter">
 					<option value="f1">Filter 1</option>
 					<option value="f2">Filter 2</option>
@@ -31,7 +27,11 @@
 
 			<div class="text-center" id="filtered"></div>
 		</div>
-
 	</div>
-{% endblock %}
+	<script type="text/javascript">
+			function readURL(event){
+		 		var getImagePath = URL.createObjectURL(event.target.files[0]);
+				 $('#myCanvas').css('background-image', 'url(' + getImagePath + ')');
+				}
+	</script>
 

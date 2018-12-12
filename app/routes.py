@@ -50,6 +50,7 @@ def register():
 
 	return render_template('register.html')
 
+
 @app.route('/filter', methods=['GET', 'POST'])
 def index():
 	if 'username' in session:
@@ -97,3 +98,10 @@ def lobby():
 @app.route('/')
 def home():
 	return render_template('home.html')
+
+
+@app.route('/album')
+def album():
+	#getting all the images name thats inside imgs folder and store in a list
+	image_names = os.listdir('./app/static/imgs')
+	return render_template('album.html', image_names = image_names)
