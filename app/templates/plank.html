@@ -17,6 +17,9 @@ $(document).ready(function() {
 	});
 });
 </script>
+    <div style="text-align: center">
+        <input type="file" id="img" name="img" onchange="readURL(event)"/>
+    </div>
     <div style="margin: 0 auto; width: 1000px;">
 		<div id = 'canvasBackGround' style="display: inline-block;">
 			<canvas id="myCanvas" width="600" height="480"></canvas>
@@ -31,6 +34,12 @@ $(document).ready(function() {
 	    </div>
    	</div>
    	<br>
+   	<script type="text/javascript">
+		function readURL(event){
+		 	var getImagePath = URL.createObjectURL(event.target.files[0]);
+			$('#myCanvas').css('background-image', 'url(' + getImagePath + ')');
+					}
+	</script>
    
     
     <!-- <script type='module' src="{{ url_for('static', filename='../static/test-animate-class.js') }}"></script> -->
