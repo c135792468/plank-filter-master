@@ -5,3 +5,4 @@ eventlet
 Pillow
 matplotlib
 flask-pymongo
+flask-bcrypt
