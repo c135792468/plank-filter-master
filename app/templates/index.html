@@ -1,3 +1,6 @@
+{% extends 'layout.html' %}
+
+{% block body %}
 <script src="{{ url_for('static', filename='../static/api.js') }}"></script>
 
 	<!-- landing page -->
@@ -10,7 +13,7 @@
 			</div>
 
 			<form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/filter">
-				<input type="file" id="img" name="img" onchange="readURL(event)" />
+				<input type="file" id="img" name="img"/>
 
 				<br/>
 				<input type="text" id="album" name="album" placeholder="album"/>
@@ -28,10 +31,5 @@
 			<div class="text-center" id="filtered"></div>
 		</div>
 	</div>
-	<script type="text/javascript">
-			function readURL(event){
-		 		var getImagePath = URL.createObjectURL(event.target.files[0]);
-				 $('#myCanvas').css('background-image', 'url(' + getImagePath + ')');
-				}
-	</script>
 
+{% endblock %}
