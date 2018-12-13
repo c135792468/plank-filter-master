@@ -100,8 +100,12 @@ def home():
 	return render_template('home.html')
 
 
-@app.route('/album')
+@app.route('/album', methods=['GET', 'POST'])
 def album():
-	#getting all the images name thats inside imgs folder and store in a list
-	image_names = os.listdir('./app/static/imgs')
-	return render_template('album.html', image_names = image_names)
+	if request.method ==' GET':
+		#getting all the images name thats inside imgs folder and store in a list
+		image_names = os.listdir('./app/static/imgs')
+		return render_template('album.html', image_names = image_names)
+	if request.method == 'POST':
+		image_names = os.listdir('./app/static/imgs')
+		return render_template('album.html', image_names = image_names)

@@ -4,13 +4,17 @@
 		<title> Album </title>
 	</head>
     <body>
-        list of images name:
-        {{image_names}}
-    	<div class = "contain">
+        <div class="container" style="width: 800px; height:1000px; margin:auto;">
+            <form method="post">
+                <input type="text" placeholder="Album name" name="Album" />
+                <input type="submit" value="Submit" />
+            </form>
+    	   <div class = "contain">
 				{%for image in image_names%}
     			<img src="{{url_for ('static', filename='./imgs/' + image)}}"
-    			style="background-size:cover; background-position:center; height:200px; width:200px;">
+    			style="background-size:cover; background-position:center; height:200px; width:33%; margin:auto;">
     			{% endfor %}
-		</div>
+		  </div>
+        </div>
     </body>
 </html>
