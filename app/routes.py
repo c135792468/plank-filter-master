@@ -102,10 +102,13 @@ def home():
 
 @app.route('/album', methods=['GET', 'POST'])
 def album():
-	if request.method ==' GET':
-		#getting all the images name thats inside imgs folder and store in a list
-		image_names = os.listdir('./app/static/imgs')
-		return render_template('album.html', image_names = image_names)
-	if request.method == 'POST':
-		image_names = os.listdir('./app/static/imgs')
-		return render_template('album.html', image_names = image_names)
+	if 'username' in session:
+		if request.method ==' GET':
+			#getting all the images name thats inside imgs folder and store in a list
+			image_names = os.listdir('./app/static/imgs')
+			return render_template('album.html', image_names = image_names)
+		if request.method == 'POST':
+			image_names = os.listdir('./app/static/imgs')
+			return render_template('album.html', image_names = image_names)
+		return ''
+	return redirect(url_for('login'))	

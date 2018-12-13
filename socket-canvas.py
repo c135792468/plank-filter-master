@@ -29,7 +29,7 @@ def moved(coords):
     
 @io.on('disconnect')
 def disconnect():
-    print('disconetted user')
+    print('disconnected user')
     for user in users:
         if user["socketid"] == request.sid:
             users.remove(user)
