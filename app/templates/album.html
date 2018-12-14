@@ -1,23 +1,16 @@
-<!DOCTYPE html>
+{% extends 'layout.html' %}
 
 {% block body %}
-<html>
-	<head>
-		<title> Album </title>
-	</head>
-    <body>
-        <div class="container" style="width: 800px; height:1000px; margin:auto;">
-            <form method="post">
-                <input type="text" placeholder="Album name" name="Album" />
-                <input type="submit" value="Submit" />
-            </form>
-    	   <div class = "contain">
-				{%for image in image_names%}
-    			<img src="{{url_for ('static', filename='./imgs/' + image)}}"
-    			style="background-size:cover; background-position:center; height:200px; width:33%; margin:auto;">
-    			{% endfor %}
-		  </div>
-        </div>
-    </body>
-</html>
+<div>
+	<p> Album </p>
+    <form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="img" accept="image/*" multiple/>
+        <input type="submit" value="Upload"/>
+    </form>
+    <div>
+        {%for image in image_names%}
+        <img src="{{ url_for('static', filename='./imgs/' + image) }}" style="background-size:cover; background-position:center; height:200px; width:33%; margin:auto;"/>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

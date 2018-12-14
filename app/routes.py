@@ -53,7 +53,9 @@ def register():
 @app.route('/endsession')
 def testimageinsert():
 	session.clear()
-	return render_template('home.html')
+	response = make_response(redirect('/'))
+	response.set_cookie('name','', expires=0)
+	return response
 
 @app.route('/filter', methods=['GET', 'POST'])
 def index():
@@ -103,16 +105,26 @@ def lobby():
 def home():
 	return render_template('home.html')
 
-
 @app.route('/album', methods=['GET', 'POST'])
 def album():
 	if 'username' in session:
-		if request.method ==' GET':
-			#getting all the images name thats inside imgs folder and store in a list
-			image_names = os.listdir('./app/static/imgs')
-			return render_template('album.html', image_names = image_names)
-		if request.method == 'POST':
-			image_names = os.listdir('./app/static/imgs')
-			return render_template('album.html', image_names = image_names)
-		return ''
-	return redirect(url_for('login'))	
+		image_names = os.listdir('./static/imgs')
+		return render_template('album2.html', image_names=image_names)
+	return redirect(url_for('login'))
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload():
+	if 'username' in session:
+		target = os.path.join('./static/imgs')
+		print(target)
+		for ffile in request.files.getlist("img"):
+			print(ffile)
+			ffilename = ffile.filename
+			name = request.cookies.get('name')
+			destination = "/".join([target, str(name) + '_' + ffilename])
+			print(destination)
+			ffile.save(destination)
+			image_names = os.listdir('./static/imgs')
+		return render_template('album2.html', image_names=image_names)
+	return redirect(url_for('login'))
+
