@@ -109,22 +109,26 @@ def home():
 def album():
 	if 'username' in session:
 		image_names = os.listdir('./static/imgs')
-		return render_template('album2.html', image_names=image_names)
+		if request.method =='POST':
+			target = os.path.join('./static/imgs')
+			for ffile in request.files.getlist("img"):
+				ffilename = ffile.filename
+				name = request.cookies.get('name')
+				destination = "/".join([target, str(name) + '_' + ffilename])
+				ffile.save(destination)
+			return render_template('album.html', image_names=image_names)	
+		return render_template('album.html', image_names=image_names)
 	return redirect(url_for('login'))
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload():
+@app.route('/uploadchat', methods=['POST'])
+def uploadchat():
 	if 'username' in session:
 		target = os.path.join('./static/imgs')
-		print(target)
 		for ffile in request.files.getlist("img"):
-			print(ffile)
 			ffilename = ffile.filename
 			name = request.cookies.get('name')
 			destination = "/".join([target, str(name) + '_' + ffilename])
-			print(destination)
 			ffile.save(destination)
-			image_names = os.listdir('./static/imgs')
-		return render_template('album2.html', image_names=image_names)
+		return redirect(url_for('lobby'))
 	return redirect(url_for('login'))
 

@@ -26,7 +26,7 @@ $(document).ready(function() {
 	    	<br>
 	    	<input type="text" placeholder="message" id="myMessage">
 	    	<button id="sendbutton">Send</button>
-	    	<form id="upload-form" action="{{ url_for('upload') }}" method="POST" enctype="multipart/form-data">
+	    	<form id="upload-form" action="{{ url_for('uploadchat') }}" method="POST" enctype="multipart/form-data">
         		<input type="file" name="img" accept="image/*" onchange="readURL(event)"/>
         		<input type="submit" value="Upload"/>
    			</form>
