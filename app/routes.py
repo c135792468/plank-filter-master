@@ -51,7 +51,7 @@ def register():
 	return render_template('register.html')
 
 @app.route('/endsession')
-def testimageinsert():
+def endsession():
 	session.clear()
 	response = make_response(redirect('/'))
 	response.set_cookie('name','', expires=0)
