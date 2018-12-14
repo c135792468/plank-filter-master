@@ -50,6 +50,10 @@ def register():
 
 	return render_template('register.html')
 
+@app.route('/endsession')
+def testimageinsert():
+	session.clear()
+	return render_template('home.html')
 
 @app.route('/filter', methods=['GET', 'POST'])
 def index():
