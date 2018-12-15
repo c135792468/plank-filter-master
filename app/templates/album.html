@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+<div>
+	<p> Album </p>
+    <form id="upload-form" action="{{ url_for('album') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="img" accept="image/*" multiple/>
+        <input type="submit" value="Upload"/>
+    </form>
+    <div>
+        {%for image in image_names%}
+        <img src="{{ url_for('static', filename='./imgs/' + image) }}" style="background-size:cover; background-position:center; height:200px; width:33%; margin:auto;"/>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

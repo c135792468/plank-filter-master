@@ -3,15 +3,11 @@
 {% block body %}
     <!-- landing page -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js'></script>
-	<div id = 'canvasBackGround'>
-		<canvas id="myCanvas" width="600" height="480"></canvas>
-	</div>
-
 <script type="text/javascript">
 $(document).ready(function() {
 	var socket = io.connect('https://plank-filter-master.herokuapp.com/');
 	socket.on('message', function(msg) {
-		$("#messages").append('<li>'+msg+'</li>');
+		$("#messages").append('<li>'+msg+ '</li>');
 	});
 	$('#sendbutton').on('click', function() {
 		socket.send("{{ name_ }}" + ":" + $('#myMessage').val());
@@ -19,14 +15,31 @@ $(document).ready(function() {
 	});
 });
 </script>
-    <div class="content">
-        <ul id="messages"></ul>
-    </div>
-
-
-    <br>
-    <input type="text" placeholder="message" id="myMessage">
-    <button id="sendbutton">Send</button>
+    <div style="margin: 0 auto; width: 1000px;">
+		<div id = 'canvasBackGround' style="display: inline-block;">
+			<canvas id="myCanvas" width="600" height="480"></canvas>
+		</div>
+		<div style="display: inline-block;">
+	    	<div class="content">
+	        	<ul id="messages"></ul>
+	    	</div>
+	    	<br>
+	    	<input type="text" placeholder="message" id="myMessage">
+	    	<button id="sendbutton">Send</button>
+	    	<form id="upload-form" action="{{ url_for('uploadchat') }}" method="POST" enctype="multipart/form-data">
+        		<input type="file" name="img" accept="image/*" onchange="readURL(event)"/>
+        		<input type="submit" value="Upload"/>
+   			</form>
+	    </div>
+   	</div>
+   	<br>
+   	<script type="text/javascript">
+		function readURL(event){
+		 	var getImagePath = URL.createObjectURL(event.target.files[0]);
+			$('#myCanvas').css('background-image', 'url(' + getImagePath + ')');
+					}
+	</script>
+   
     
     <!-- <script type='module' src="{{ url_for('static', filename='../static/test-animate-class.js') }}"></script> -->
     <script type='module' src="{{ url_for('static', filename='../static/show-multiple-users.js') }}"></script>
