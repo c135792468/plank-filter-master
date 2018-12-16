@@ -15,22 +15,23 @@ mongo = PyMongo(app)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-	if request.method =='POST':
-		user = mongo.db.user_accounts
-		login_user = user.find_one({'username' : request.form['username']})
+    if request.method =='POST':
+        user = mongo.db.user_accounts
+        login_user = user.find_one({'username' : request.form['username']})
 
-		if login_user:
-			if bcrypt.hashpw(request.form['password'].encode('utf-8'), login_user['password']) == login_user['password']:
-				session['username'] = request.form['username']
-				name = request.form['username']
-				response = make_response(redirect('/lobby'))
-				response.set_cookie('name', name)
-				return response
-			return 'Invalid username/password combination'	
-		return 'Invalid username/password combination'
-	
-	elif(request.method == 'GET'):
-		return render_template('login.html')
+        if login_user:
+            if bcrypt.hashpw(request.form['password'].encode('utf-8'), login_user['password']) == login_user['password']:
+                session.permanent = True
+
+                session['username'] = request.form['username']
+                name = request.form['username']
+                response = make_response(redirect('/lobby'))
+                response.set_cookie('name', name)
+                return response
+            return 'Invalid username/password combination'	
+        return 'Invalid username/password combination'
+    elif(request.method == 'GET'):
+        return render_template('login.html')
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
@@ -112,26 +113,31 @@ def home():
 
 @app.route('/album', methods=['GET', 'POST'])
 def album():
-	if 'username' in session:
-		album = mongo.db.user_albums
-		user_image = mongo.db.user_images
-		album_names = []
-		db_image_names = []
-		for db_album_names in album.find({"user_id": session['username']}):
-			album_name = db_album_names['album_name']
-			album_names.append(album_name)
-		print(album_names)
-		for db_user_images in user_image.find({"user_id": session['username'], "album_name": selected_album}):
-			db_image_name = db_user_images['image_name']
-			db_image_names.append(db_image_name)
-		print(db_image_names)
-		images = os.listdir('./static/imgs')
-		set_images = set(images)
-		set_db_image_names = set(db_image_names)
-		image_names = set_images.intersection(db_image_names)
-		print(image_names)
-		return render_template('album.html', image_names=image_names, album_names=album_names, selected_album=selected_album)
-	return redirect(url_for('login'))
+    print("this is session in album route", session)
+    print("is username in session?", 'username' in session)
+    if ('username' in session):
+        album = mongo.db.user_albums
+        user_image = mongo.db.user_images
+        album_names = []
+        db_image_names = []
+        for db_album_names in album.find({"user_id": session['username']}):
+            album_name = db_album_names['album_name']
+            album_names.append(album_name)
+        print(album_names)
+        for db_user_images in user_image.find({"user_id": session['username'], "album_name": selected_album}):
+            db_image_name = db_user_images['image_name']
+            db_image_names.append(db_image_name)
+        print(db_image_names)
+
+        images = os.listdir('./app/static/imgs')
+        set_images = set(images)
+        set_db_image_names = set(db_image_names)
+        image_names = set_images.intersection(db_image_names)
+        print(image_names)
+        return render_template('album.html', image_names=image_names, album_names=album_names, selected_album=selected_album)
+    else:
+        return redirect(url_for('login'))
+    
 
 @app.route('/create_album', methods=['POST'])
 def create_album():
@@ -152,7 +158,7 @@ def select_album():
 def uploadalbum():
 	if 'username' in session:
 		user_image = mongo.db.user_images
-		target = os.path.join('./static/imgs')
+		target = os.path.join('./app/static/imgs')
 		for ffile in request.files.getlist("img"):
 			ffilename = ffile.filename
 			name = request.cookies.get('name')

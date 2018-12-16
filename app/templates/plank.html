@@ -16,6 +16,24 @@ $(document).ready(function() {
 });
 </script>
     <div style="margin: 0 auto; width: 1000px;">
+
+        <div id="filter">
+            <form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/filter">
+				<input type="file" id="img" name="img" onchange="readURL(event)"/>
+
+				<br/>
+				<select id="filter" name="filter">
+					<option value="f1">Filter 1</option>
+					<option value="f2">Filter 2</option>
+					<option value="f3">Filter 3</option>
+				</select>
+				
+				<button id="submit_handlr" type="button">submit</button>
+
+			</form>
+
+        </div>
+    
 		<div id = 'canvasBackGround' style="display: inline-block;">
 			<canvas id="myCanvas" width="600" height="480"></canvas>
 		</div>
@@ -25,7 +43,9 @@ $(document).ready(function() {
 	    	</div>
 	    	<br>
 	    	<input type="text" placeholder="message" id="myMessage">
-	    	<button id="sendbutton">Send</button>
+            <button id="sendbutton">Send</button>
+
+
 	    	<form id="upload-form" action="{{ url_for('uploadchat') }}" method="POST" enctype="multipart/form-data">
         		<input type="file" name="img" accept="image/*" onchange="readURL(event)"/>
         		<input type="submit" value="Upload"/>
@@ -46,3 +66,4 @@ $(document).ready(function() {
    
 
 {% endblock %}
+

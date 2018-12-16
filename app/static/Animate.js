@@ -97,6 +97,14 @@ class Animate{
         this.ctx.closePath();
     }
 
+    drawFP(x, y, w, h){
+        this.ctx.beginPath();
+        this.ctx.rect(x, y, w, h);
+        this.ctx.fillStyle = "#0095DD";
+        this.ctx.fill();
+        this.ctx.closePath();
+    }
+
     drawPF0() {
         this.ctx.beginPath();
         this.ctx.rect(390, 460, 30, 5);
