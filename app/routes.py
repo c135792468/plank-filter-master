@@ -71,7 +71,7 @@ def index():
 		elif(request.method == 'POST'):
 			ffile =	request.files["file"]
 			print("file: ", ffile.filename)
-			# filepath = os.path.join('./static/imgs/', ffile.filename)
+			filepath = os.path.join('./static/imgs/', ffile.filename)
 
 			filter = request.form.get("filter")
 			image = Image.open(ffile)
@@ -89,7 +89,7 @@ def index():
 
 			ts = time.time()
 
-			filepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
+			filepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
 			print(filepath)
 			image.save(filepath)
 			openfilepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
