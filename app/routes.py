@@ -103,7 +103,6 @@ def lobby():
         	name = request.cookies.get('name')
         	print(name)
         	return render_template('plank.html', name_=name)
-
         return redirect(url_for('login'))
 
 @app.route('/')
@@ -117,36 +116,39 @@ def album():
 		user_image = mongo.db.user_images
 		album_names = []
 		db_image_names = []
+		# Looks up user associated album names in DB
 		for db_album_names in album.find({"user_id": session['username']}):
 			album_name = db_album_names['album_name']
 			album_names.append(album_name)
-		print(album_names)
+		# Looks up stored images and associated album names in DB
 		for db_user_images in user_image.find({"user_id": session['username'], "album_name": selected_album}):
 			db_image_name = db_user_images['image_name']
 			db_image_names.append(db_image_name)
-		print(db_image_names)
 		images = os.listdir('./static/imgs')
 		set_images = set(images)
 		set_db_image_names = set(db_image_names)
-		image_names = set_images.intersection(db_image_names)
-		print(image_names)
+		image_names = set_images.intersection(set_db_image_names)
 		return render_template('album.html', image_names=image_names, album_names=album_names, selected_album=selected_album)
 	return redirect(url_for('login'))
 
 @app.route('/create_album', methods=['POST'])
 def create_album():
-	album = mongo.db.user_albums
-	existing_album = album.find_one({'album_name' : request.form['album_name']})
-	if existing_album is None:
-		album.insert({'user_id' : session['username'], 'album_name' : request.form['album_name']})
-		return redirect(url_for('album'))
-	return 'That album already exists'
+	if 'username' in session:
+		album = mongo.db.user_albums
+		existing_album = album.find_one({'album_name' : request.form['album_name']})
+		if existing_album is None:
+			album.insert({'user_id' : session['username'], 'album_name' : request.form['album_name']})
+			return redirect(url_for('album'))
+		return 'That album already exists'
+	return redirect(url_for('login'))
 
 @app.route('/select_album', methods=['POST'])
 def select_album():
-	global selected_album
-	selected_album = request.form['album_name']
-	return redirect(url_for('album'))
+	if 'username' in session:
+		global selected_album
+		selected_album = request.form['album_name']
+		return redirect(url_for('album'))
+	return redirect(url_for('login'))
 
 @app.route('/uploadalbum', methods=['POST'])
 def uploadalbum():
