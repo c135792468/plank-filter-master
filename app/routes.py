@@ -84,10 +84,10 @@ def index():
 
         ts = time.time()
 
-        filepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
+        filepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
         print(filepath)
         image.save(filepath)
-        openfilepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
+        openfilepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
         return jsonify({"file": openfilepath})
     else:
         return redirect(url_for('login'))
@@ -128,7 +128,7 @@ def album():
             db_image_names.append(db_image_name)
         print(db_image_names)
 
-        images = os.listdir('./app/static/imgs')
+        images = os.listdir('./static/imgs')
         set_images = set(images)
         set_db_image_names = set(db_image_names)
         image_names = set_images.intersection(db_image_names)
@@ -166,7 +166,7 @@ def uploadalbum():
 		user = mongo.db.user_accounts
 		active_album = user.find_one({'username' : session['username']})
 		selected_album = active_album['active_album']
-		target = os.path.join('./app/static/imgs')
+		target = os.path.join('./static/imgs')
 		for ffile in request.files.getlist("img"):
 			ffilename = ffile.filename
 			name = request.cookies.get('name')
@@ -184,7 +184,7 @@ def uploadchat():
 		user = mongo.db.user_accounts
 		active_album = user.find_one({'username' : session['username']})
 		selected_album = active_album['active_album']
-		target = os.path.join('./app/static/imgs')
+		target = os.path.join('./static/imgs')
 		for ffile in request.files.getlist("img"):
 			ffilename = ffile.filename
 			name = request.cookies.get('name')
