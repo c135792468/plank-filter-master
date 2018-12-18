@@ -4,5 +4,5 @@ Flask_SocketIO
 eventlet
 Pillow
 matplotlib
-pymongo
-bcrypt
+flask-pymongo
+flask-bcrypt
