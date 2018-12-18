@@ -19,7 +19,7 @@ $(document).ready(function() {
 
         <div id="filter">
             <form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/filter">
-				<input type="file" id="img" name="img"/>
+				<input type="file" id="img" name="img" onchange="readURL(event)"/>
                 
 				<br/>
 				<select id="filter" name="filter">
