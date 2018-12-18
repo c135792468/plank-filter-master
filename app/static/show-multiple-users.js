@@ -26,7 +26,7 @@ socket.on('connect', () => {
         curr_users.push({socketid: socket.id, name: "", x:295 , y:460})
 
         //add to client side users and server side
-        socket.emit('new-user', cookies)
+        socket.emit('new-user', username)
         connected = true
 
         setInterval(draw, 10)

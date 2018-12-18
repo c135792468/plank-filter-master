@@ -10,7 +10,7 @@ $(document).ready(function() {
 		$("#messages").append('<li>'+msg+ '</li>');
 	});
 	$('#sendbutton').on('click', function() {
-		socket.send("{{ name_ }}" + ":" + $('#myMessage').val());
+		socket.send("{{ name_ }}" + ": " + $('#myMessage').val());
 		$('#myMessage').val('');
 	});
 });
@@ -19,8 +19,8 @@ $(document).ready(function() {
 
         <div id="filter">
             <form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/filter">
-				<input type="file" id="img" name="img" onchange="readURL(event)"/>
-
+				<input type="file" id="img" name="img"/>
+                
 				<br/>
 				<select id="filter" name="filter">
 					<option value="f1">Filter 1</option>
@@ -46,10 +46,10 @@ $(document).ready(function() {
             <button id="sendbutton">Send</button>
 
 
-	    	<form id="upload-form" action="{{ url_for('uploadchat') }}" method="POST" enctype="multipart/form-data">
+	    	<!-- <form id="upload-form" action="{{ url_for('uploadchat') }}" method="POST" enctype="multipart/form-data">
         		<input type="file" name="img" accept="image/*" onchange="readURL(event)"/>
         		<input type="submit" value="Upload"/>
-   			</form>
+   			</form> -->
 	    </div>
    	</div>
    	<br>
@@ -57,11 +57,9 @@ $(document).ready(function() {
 		function readURL(event){
 		 	var getImagePath = URL.createObjectURL(event.target.files[0]);
 			$('#myCanvas').css('background-image', 'url(' + getImagePath + ')');
-					}
+		}
 	</script>
    
-    
-    <!-- <script type='module' src="{{ url_for('static', filename='../static/test-animate-class.js') }}"></script> -->
     <script type='module' src="{{ url_for('static', filename='../static/show-multiple-users.js') }}"></script>
    
 
