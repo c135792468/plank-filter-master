@@ -33,3 +33,7 @@
  	color:white;
  	z-index: 1;
  }
+
+ .thumbnail:hover{
+    opacity: 0.5;
+ }

@@ -68,27 +68,27 @@ def index():
         if(request.method == 'GET'):
             return render_template('index.html')
 
-    elif(request.method == 'POST'):
-        ffile =	request.files["file"]
+        elif(request.method == 'POST'):
+            ffile =	request.files["file"]
 
-        filter = request.form.get("filter")
-        image = Image.open(ffile)
-        print(filter)
-        #apply filter to file
-        if(filter == "f1"):
-            image = image.convert('L')
-        elif(filter == "f2"):
-            image = image.filter(ImageFilter.GaussianBlur(20))
-        elif(filter == "f3"):
-            image = image.filter(ImageFilter.CONTOUR)
+            filter = request.form.get("filter")
+            image = Image.open(ffile)
+            print(filter)
+            #apply filter to file
+            if(filter == "f1"):
+                image = image.convert('L')
+            elif(filter == "f2"):
+                image = image.filter(ImageFilter.GaussianBlur(20))
+            elif(filter == "f3"):
+                image = image.filter(ImageFilter.CONTOUR)
 
-        ts = time.time()
+            ts = time.time()
 
-        filepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
-        print(filepath)
-        image.save(filepath)
-        openfilepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
-        return jsonify({"file": openfilepath})
+            filepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
+            print(filepath)
+            image.save(filepath)
+            openfilepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
+            return jsonify({"file": openfilepath})
     else:
         return redirect(url_for('login'))
     return ""
