@@ -93,13 +93,37 @@ def index():
         return redirect(url_for('login'))
     return ""
 
+def getSelectedAlbum():
+    user = mongo.db.user_accounts
+    active_album = user.find_one({'username' : session['username']})
+    return active_album['active_album']
+
+def getPhotosInAlbum(selected_album):
+    user_image = mongo.db.user_images
+    db_image_names = []
+
+    for db_user_images in user_image.find({"user_id": session['username'], "album_name": selected_album}):
+        db_image_name = db_user_images['image_name']
+        db_image_names.append(db_image_name)
+
+    return db_image_names
+
+def getAlbumNames():
+    album = mongo.db.user_albums
+    album_names = []
+
+    for db_album_names in album.find({"user_id": session['username']}):
+        album_name = db_album_names['album_name']
+        album_names.append(album_name)
+
+    return album_names
+
 @app.route('/lobby')
 def lobby():
-        if 'username' in session:
-        	name = request.cookies.get('name')
-        	print(name)
-        	return render_template('plank.html', name_=name)
-        return redirect(url_for('login'))
+    if 'username' in session:
+        name = request.cookies.get('name')
+        return render_template('plank.html', name_=name)
+    return redirect(url_for('login'))
 
 @app.route('/')
 def home():
@@ -107,32 +131,19 @@ def home():
 
 @app.route('/album', methods=['GET', 'POST'])
 def album():
-    print("this is session in album route", session)
-    print("is username in session?", 'username' in session)
     if ('username' in session):
-        album = mongo.db.user_albums
-        user_image = mongo.db.user_images
         album_names = []
         db_image_names = []
 
-        user = mongo.db.user_accounts
-        active_album = user.find_one({'username' : session['username']})
-        selected_album = active_album['active_album']
-
-        for db_album_names in album.find({"user_id": session['username']}):
-            album_name = db_album_names['album_name']
-            album_names.append(album_name)
-        print(album_names)
-        for db_user_images in user_image.find({"user_id": session['username'], "album_name": selected_album}):
-            db_image_name = db_user_images['image_name']
-            db_image_names.append(db_image_name)
-        print(db_image_names)
+        selected_album = getSelectedAlbum()
+        db_image_names = getPhotosInAlbum(selected_album)
+        album_names = getAlbumNames()
 
         images = os.listdir('./app/static/imgs')
         set_images = set(images)
         set_db_image_names = set(db_image_names)
         image_names = set_images.intersection(db_image_names)
-        print(image_names)
+        
         return render_template('album.html', image_names=image_names, album_names=album_names, selected_album=selected_album)
     else:
         return redirect(url_for('login'))
