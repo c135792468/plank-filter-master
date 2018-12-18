@@ -6,7 +6,6 @@ import time
 from app import app
 from flask_pymongo import PyMongo
 import bcrypt
-from app import selected_album
 
 app.config['MONGO_DBNAME'] = 'plank_mongo'
 app.config['MONGO_URI'] = 'mongodb://admin:Teampassword8@ds129484.mlab.com:29484/plank_mongo'
@@ -41,7 +40,7 @@ def register():
 
 		if existing_user is None:
 			hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
-			user.insert({'username' : request.form['username'], 'password' : hashpass})
+			user.insert({'username' : request.form['username'], 'password' : hashpass, 'active_album' : 'default'})
 			session['username'] = request.form['username']
 			# create a default album for user
 			album.insert({'user_id' : session['username'], 'album_name' : 'default'})
@@ -65,14 +64,21 @@ def endsession():
 @app.route('/filter', methods=['GET', 'POST'])
 def index():
 	if 'username' in session:
+		album = mongo.db.user_albums
+		user_image = mongo.db.user_images
+		album_names = []
 		if(request.method == 'GET'):
-			return render_template('index.html')
+			for db_album_names in album.find({"user_id": session['username']}):
+				album_name = db_album_names['album_name']
+				album_names.append(album_name)
+			return render_template('index.html', album_names=album_names)
 
 		elif(request.method == 'POST'):
+			selectedalbum = request.form.get("album_name")
+			print (selectedalbum)
 			ffile =	request.files["file"]
 			print("file: ", ffile.filename)
 			filepath = os.path.join('./static/imgs/', ffile.filename)
-
 			filter = request.form.get("filter")
 			image = Image.open(ffile)
 			print(filter)
@@ -86,10 +92,10 @@ def index():
 			elif(filter == "f3"):
 				print("filter3")
 				image = image.filter(ImageFilter.CONTOUR)
-
 			ts = time.time()
-
-			filepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
+			image_name = str(ts) + ffile.filename
+			user_image.insert({'user_id' : session['username'], 'image_name' : image_name, 'album_name' : selectedalbum})	
+			filepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
 			print(filepath)
 			image.save(filepath)
 			openfilepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
@@ -115,28 +121,28 @@ def album():
 	if 'username' in session:
 		album = mongo.db.user_albums
 		user_image = mongo.db.user_images
+		user = mongo.db.user_accounts
+		active_album = user.find_one({'username' : session['username']})
+		selected_album = active_album['active_album']
 		album_names = []
 		db_image_names = []
 		for db_album_names in album.find({"user_id": session['username']}):
 			album_name = db_album_names['album_name']
 			album_names.append(album_name)
-		print(album_names)
 		for db_user_images in user_image.find({"user_id": session['username'], "album_name": selected_album}):
 			db_image_name = db_user_images['image_name']
 			db_image_names.append(db_image_name)
-		print(db_image_names)
-		images = os.listdir('./static/imgs')
+		images = os.listdir('./app/static/imgs')
 		set_images = set(images)
 		set_db_image_names = set(db_image_names)
 		image_names = set_images.intersection(db_image_names)
-		print(image_names)
 		return render_template('album.html', image_names=image_names, album_names=album_names, selected_album=selected_album)
 	return redirect(url_for('login'))
 
 @app.route('/create_album', methods=['POST'])
 def create_album():
 	album = mongo.db.user_albums
-	existing_album = album.find_one({'album_name' : request.form['album_name']})
+	existing_album = album.find_one({'username' : session['username'], 'album_name' : request.form['album_name']})
 	if existing_album is None:
 		album.insert({'user_id' : session['username'], 'album_name' : request.form['album_name']})
 		return redirect(url_for('album'))
@@ -144,15 +150,22 @@ def create_album():
 
 @app.route('/select_album', methods=['POST'])
 def select_album():
-	global selected_album
-	selected_album = request.form['album_name']
-	return redirect(url_for('album'))
+	if 'username' in session:
+		user = mongo.db.user_accounts
+		selected_album = user.find_one({'username' : session['username']})
+		selected_album['active_album'] = request.form['album_name']
+		user.save(selected_album)
+		return redirect(url_for('album'))
+	return redirect(url_for('login'))
 
 @app.route('/uploadalbum', methods=['POST'])
 def uploadalbum():
 	if 'username' in session:
 		user_image = mongo.db.user_images
-		target = os.path.join('./static/imgs')
+		user = mongo.db.user_accounts
+		active_album = user.find_one({'username' : session['username']})
+		selected_album = active_album['active_album']
+		target = os.path.join('./app/static/imgs')
 		for ffile in request.files.getlist("img"):
 			ffilename = ffile.filename
 			name = request.cookies.get('name')
@@ -167,7 +180,10 @@ def uploadalbum():
 def uploadchat():
 	if 'username' in session:
 		user_image = mongo.db.user_images
-		target = os.path.join('./static/imgs')
+		user = mongo.db.user_accounts
+		active_album = user.find_one({'username' : session['username']})
+		selected_album = active_album['active_album']
+		target = os.path.join('./app/static/imgs')
 		for ffile in request.files.getlist("img"):
 			ffilename = ffile.filename
 			name = request.cookies.get('name')
