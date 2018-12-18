@@ -131,7 +131,7 @@ def album():
         images = os.listdir('./app/static/imgs')
         set_images = set(images)
         set_db_image_names = set(db_image_names)
-        image_names = set_images.intersection(db_image_names)
+        image_names = set_images.intersection(set_db_image_names)
         print(image_names)
         return render_template('album.html', image_names=image_names, album_names=album_names, selected_album=selected_album)
     else:
