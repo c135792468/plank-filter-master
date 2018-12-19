@@ -102,7 +102,6 @@ function popUp(event, image){
     event.stopPropagation()
 
     $('#backdrop').css('pointer-events', 'auto')
-    $('.image').css('pointer-events', 'none')
 
     let background = document.getElementById("pop-up")
     background.style.opacity = 0.2
