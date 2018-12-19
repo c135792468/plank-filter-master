@@ -122,6 +122,12 @@ def getAlbumNames():
 
     return album_names
 
+def selectAlbum(album_name):
+    user = mongo.db.user_accounts
+    selected_album = user.find_one({'username' : session['username']})
+    selected_album['active_album'] = album_name
+    user.save(selected_album)
+
 @app.route('/lobby')
 def lobby():
     if 'username' in session:
@@ -161,15 +167,24 @@ def create_album():
 		return 'That album already exists'
 	return redirect(url_for('login'))
 
+@app.route('/lobby_select_album', methods=['POST'])
+def lobby_select_album():
+    if 'username' in session:
+        selectAlbum(request.form['album_name'])
+        selected_album = getSelectedAlbum()
+        image_names = getPhotosInAlbum(selected_album)
+
+        return jsonify({'imgs':list(image_names)})
+    else:
+        return redirect(url_for('login'))
+
 @app.route('/select_album', methods=['POST'])
 def select_album():
-	if 'username' in session:
-		user = mongo.db.user_accounts
-		selected_album = user.find_one({'username' : session['username']})
-		selected_album['active_album'] = request.form['album_name']
-		user.save(selected_album)
-		return redirect(url_for('album'))
-	return redirect(url_for('login'))
+    if 'username' in session:
+        selectAlbum(request.form['album_name'])
+
+        return redirect(url_for('album'))
+    return redirect(url_for('login'))
 
 @app.route('/uploadalbum', methods=['POST'])
 def uploadalbum():

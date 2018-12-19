@@ -42,7 +42,11 @@
                             <div class="input-group">
                             <select name="album_name" class="selectpicker form-control">
                                 {% for album_name in album_names %}
-                                <option value="{{ album_name }}">{{ album_name }}</option>
+                                    {% if album_name == selected_album %}
+                                        <option value="{{ album_name }}" selected>{{ album_name }}</option>
+                                    {% else %}
+                                        <option value="{{ album_name }}">{{ album_name }}</option>
+                                    {% endif %}                                
                                 {% endfor %}
                             </select>
                             </div>
