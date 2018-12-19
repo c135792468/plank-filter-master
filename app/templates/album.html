@@ -74,7 +74,7 @@
         {% if image_names|length > 0 %}
             <form name="delete_photo" method="POST" action="{{ url_for('remove_image') }}" >
             {% for image in image_names %}
-                <div class="img-holder" style="position: relative; display: inline-block; background-size: cover; height: 200px; width: 33vw;">
+                <div class="img-holder" style="position: relative; display: inline-block; background-size: cover; height: 200px; width: 32vw;">
                     <input type="hidden" value="{{ image }}" class="form-control" name="image"/>
                     <img class='image' src="{{ url_for('static', filename='./imgs/' + image) }}" style="cursor: pointer; background-size:cover; background-position:center; height:100%; width:100%; margin:auto;"/>
                     <div class="delete" data-value=`{{ image }}` style="cursor: pointer; text-align: center; height: 20px; width: 20px; z-index: 1; display: none; position: absolute; right:0; top: 0; background-color:white">X</div>
