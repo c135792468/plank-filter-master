@@ -14,9 +14,12 @@
 
 			<form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/filter">
 				<input type="file" id="img" name="img"/>
-
 				<br/>
-				<input type="text" id="album" name="album" placeholder="album"/>
+				<select id ="album_name" name="album_name">
+                    {% for album_name in album_names %}
+                    <option value="{{ album_name }}">{{ album_name }}</option>
+                    {% endfor %}
+               	</select>
 				<select id="filter" name="filter">
 					<option value="f1">Filter 1</option>
 					<option value="f2">Filter 2</option>
