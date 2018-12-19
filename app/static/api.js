@@ -25,7 +25,7 @@ $(() => {
     
     })
 
-    $('#get-album').on('click', () => {
+    $('#get-album').on('change', () => {
         $.ajax({
             url: '/lobby_select_album',
             type: 'POST',
@@ -35,30 +35,41 @@ $(() => {
                 $('#album_imgs').empty()
 
                 let images = res.imgs
-
-                for(let img in images){
-                    let new_img = document.createElement("img")
-
-                    new_img.src = '/static/imgs/' + images[img]
-                    new_img.style.cursor = 'pointer'
-                    new_img.style.backgroundSize = "cover"
-                    new_img.style.backgroundPosition = "center"
-                    new_img.height = 130
-                    new_img.width = 130
-                    // new_img.style.paddingTop = 20
-                    new_img.style.margin = "auto"
-                    
-
-                    $('#album_imgs').append(new_img)
+                if(images.length < 1){
+                    let empty_node = document.createElement("p")
+                    empty_node.style.textAlign = "center"
+                    empty_node.innerHTML = "There's nothing here..."
+                    $('#album_imgs').append(empty_node)
+                }else{
+                    for(let img in images){
+                        let new_img = document.createElement("img")
+    
+                        new_img.src = '/static/imgs/' + images[img]
+                        new_img.style.cursor = 'pointer'
+                        new_img.style.backgroundSize = "cover"
+                        new_img.style.backgroundPosition = "center"
+                        new_img.height = 100
+                        new_img.width = 100
+                        new_img.style.margin = "auto"
+                        new_img.onclick = () => {
+                            console.log("trying to change background");
+                            $('#myCanvas').css('background-image', 'url(' + '/static/imgs/' + images[img] + ')');
+                        }
+    
+                        $('#album_imgs').append(new_img)
+                    }
                 }
+                
             }
 
         })
     })
-
-    
-
 })
+
+changeBackground = (img) => {
+    console.log("trying to change background");
+    $('#myCanvas').css('background-image', 'url(' + img + ')');
+}
 
 
 

@@ -19,6 +19,17 @@
     padding: 2em;
 }
 
+#album_imgs{
+    overflow: hidden;
+    height: 100px;
+    width: 85%;
+    white-space: nowrap;
+}
+
+#album_imgs:hover{
+    overflow-x: scroll;
+}
+
 
 
 
