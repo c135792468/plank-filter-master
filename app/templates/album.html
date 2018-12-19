@@ -42,7 +42,11 @@
                             <div class="input-group">
                             <select name="album_name" class="selectpicker form-control">
                                 {% for album_name in album_names %}
-                                <option value="{{ album_name }}">{{ album_name }}</option>
+                                    {% if album_name == selected_album %}
+                                        <option value="{{ album_name }}" selected>{{ album_name }}</option>
+                                    {% else %}
+                                        <option value="{{ album_name }}">{{ album_name }}</option>
+                                    {% endif %}
                                 {% endfor %}
                             </select>
                             </div>
@@ -77,13 +81,13 @@
 
             expanded_img.id="expanded-img"
             expanded_img.src = image
-            expanded_img.height = 600
+            expanded_img.height = 700
             expanded_img.width = 700
             
             document.body.appendChild(expanded_img)
 
             expanded_img.style.position = "fixed"
-            expanded_img.style.marginTop = "25px"
+            expanded_img.style.paddingBottom = "100px"
             expanded_img.style.marginLeft = "400px"
         }
     </script>

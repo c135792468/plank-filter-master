@@ -6,6 +6,7 @@ import time
 from app import app
 from flask_pymongo import PyMongo
 import bcrypt
+import urllib
 
 app.config['MONGO_DBNAME'] = 'plank_mongo'
 app.config['MONGO_URI'] = 'mongodb://admin:Teampassword8@ds129484.mlab.com:29484/plank_mongo'
@@ -211,18 +212,39 @@ def remove_image():
 
 @app.route('/uploadalbum', methods=['POST'])
 def uploadalbum():
-	if 'username' in session:
-		user_image = mongo.db.user_images
-		user = mongo.db.user_accounts
-		active_album = user.find_one({'username' : session['username']})
-		selected_album = active_album['active_album']
-		target = os.path.join('./app/static/imgs')
-		for ffile in request.files.getlist("img"):
-			ffilename = ffile.filename
-			name = request.cookies.get('name')
-			image_name = "/".join([str(name) + '_' + str(selected_album) + '_' + ffilename])
-			destination = "/".join([target, image_name])
-			ffile.save(destination)
-			user_image.insert({'user_id' : session['username'], 'image_name' : image_name, 'album_name' : selected_album})
-		return redirect(url_for('album'))
-	return redirect(url_for('login'))
+    if 'username' in session:
+        user_image = mongo.db.user_images
+        user = mongo.db.user_accounts
+        active_album = user.find_one({'username' : session['username']})
+        selected_album = active_album['active_album']
+        target = os.path.join('./app/static/imgs')
+        for ffile in request.files.getlist("img"):
+            ffilename = ffile.filename
+            name = request.cookies.get('name')
+            image_name = "/".join([str(name) + '_' + str(selected_album) + '_' + ffilename])
+            image_name = urllib.parse.quote(image_name)
+            destination = "/".join([target, image_name])
+            ffile.save(destination)
+            user_image.insert({'user_id' : session['username'], 'image_name' : image_name, 'album_name' : selected_album})
+        return redirect(url_for('album'))
+    return redirect(url_for('login'))
+
+@app.route('/uploadchat', methods=['POST'])
+def uploadchat():
+    if 'username' in session:
+        user_image = mongo.db.user_images
+        user = mongo.db.user_accounts
+        active_album = user.find_one({'username' : session['username']})
+        selected_album = active_album['active_album']
+        target = os.path.join('./app/static/imgs')
+        for ffile in request.files.getlist("img"):
+            ffilename = ffile.filename
+            name = request.cookies.get('name')
+            image_name = "/".join([str(name) + '_' + str(selected_album) + '_' + ffilename])
+            destination = "/".join([target, image_name])
+            ffile.save(destination)
+            user_image.insert({'user_id' : session['username'], 'image_name' : image_name, 'album_name' : selected_album})
+        return redirect(url_for('lobby'))
+    else:
+        return redirect(url_for('login'))
+

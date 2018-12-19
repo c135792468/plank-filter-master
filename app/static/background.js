@@ -1,3 +1,0 @@
-changeBackground = (event) => {
-
-}

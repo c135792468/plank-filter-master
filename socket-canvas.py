@@ -36,6 +36,11 @@ def disconnect():
             emit('disconnected', user, broadcast=True)
             break
 
+@io.on('change-background')
+def changeBackground(img):
+    print("called background in server")
+    emit('change-background', img, broadcast=True, include_self=False)
+
 # -----------------chat application
 message = []
 @io.on('message')
