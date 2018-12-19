@@ -1,6 +1,7 @@
 console.log("successfully imported")
 
 $(() => {
+    //submit button for filter
     $("#submit_handlr").on("click",() => {
         console.log("called")
         let fd = new FormData();
@@ -25,6 +26,8 @@ $(() => {
     
     })
 
+
+    //for album in lobby when it loadds next album (selected)
     $('#get-album').on('change', () => {
         $.ajax({
             url: '/lobby_select_album',
@@ -70,8 +73,53 @@ $(() => {
             }
 
         })
+
+    })
+
+    //delete function on album page
+    $('.img-holder').on('click', function(){
+        let src = $(this).children('img')[0].src
+
+        popUp(event, src)
+    })
+
+    $('.delete').on('click', function(event){
+        event.stopPropagation()
+        $('form[name=delete_photo]').submit()
+    })
+
+    $('.img-holder').on('mouseenter', function(){
+        let delete_btn = $(this).children('div').eq(0)
+        delete_btn.css('display', '')
+    })
+
+    $('.img-holder').on('mouseleave', function(){
+        $('.delete').css('display', 'none')
     })
 })
+
+function popUp(event, image){
+    event.stopPropagation()
+
+    let backdrop = document.getElementById("backdrop")
+    backdrop.style.pointerEvents = "stroke"
+
+    let background = document.getElementById("pop-up")
+    background.style.opacity = 0.2
+    
+    let expanded_img = document.createElement("img")
+
+    expanded_img.id="expanded-img"
+    expanded_img.src = image
+    expanded_img.height = 700
+    expanded_img.width = 700
+    
+    document.body.appendChild(expanded_img)
+
+    expanded_img.style.position = "fixed"
+    expanded_img.style.paddingBottom = "100px"
+    expanded_img.style.marginLeft = "400px"
+}
 
 
 

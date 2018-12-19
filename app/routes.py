@@ -153,7 +153,10 @@ def lobby():
 
 @app.route('/')
 def home():
-	return render_template('home.html')
+    if 'user' in session:
+        return redirect(url_for('lobby'))
+    else:
+	    return render_template('home.html')
 
 @app.route('/album', methods=['GET', 'POST'])
 def album():
@@ -204,6 +207,9 @@ def remove_image():
         selected_album = getSelectedAlbum()
         target = os.path.join('./app/static/imgs')
         image_name = request.form['image']
+
+        print("image name in backend", image_name)
+        
         destination = "/".join([target, image_name])
         os.remove(destination)
         user_image.remove({'image_name' : image_name})
