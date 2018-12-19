@@ -7,11 +7,9 @@
         console.log("called revert");
         document.getElementById("pop-up").style.opacity = 1.0
         document.getElementById("backdrop").style.pointerEvents = "none"
-        let all_elems = document.getElementsByTagName("*")
-        for(elem of all_elems){
-            if(elem.id === "expanded-img"){
-                elem.remove()
-            }
+        let all_elems = document.getElementsByClassName('expanded-img')
+        while(all_elems[0]){
+            all_elems[0].parentNode.removeChild(all_elems[0])
         }
     }
 </script>
