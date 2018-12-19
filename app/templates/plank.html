@@ -3,13 +3,12 @@
 {% block body %}
     <!-- landing page -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js'></script>
-    <script src="{{ url_for('static', filename='../static/api.js') }}"></script>
 
 <script type="text/javascript">
 $(document).ready(function() {
 	var socket = io.connect('https://plank-filter-master.herokuapp.com/');
 	socket.on('message', function(msg) {
-		$("#messages").append('<li>'+msg+ '</li>');
+		$("#messages").append('<p>'+msg+ '</p>');
 	});
 	$('#sendbutton').on('click', function() {
 		socket.send("{{ name_ }}" + ": " + $('#myMessage').val());
@@ -36,6 +35,15 @@ $(document).ready(function() {
                 </div>
             </form>
 
+            <script>
+                function changeBackground(img){
+                    const socket = io.connect('https://plank-filter-master.herokuapp.com/')
+                    console.log("does socket exist", socket);
+                    $('#myCanvas').css('background-image', "url(" + img + ")");
+                    socket.emit("change-background", "fdfafsf")
+                    socket.emit('message', "@@@@")
+                }
+            </script>
             <div id="album_imgs">
                 {% if image_names|length > 0 %}
                     {% for image in image_names %}
@@ -63,7 +71,8 @@ $(document).ready(function() {
    	<br>
    
     <script type='module' src="{{ url_for('static', filename='../static/show-multiple-users.js') }}"></script>
-
+    <script type='module' src="{{ url_for('static', filename='../static/change-background.js') }}"></script>
+    <script type='module' src="{{ url_for('static', filename='../static/api.js') }}"></script>
 
 {% endblock %}
 

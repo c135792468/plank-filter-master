@@ -5,10 +5,6 @@ io = SocketIO(app)
 
 users = []
 
-@io.on('change-background')
-def changeBackground(img):
-    emit('change-background', img, broadcast=True, include_self=False)
-
 @io.on('new-user')
 def newUser(user):
     emit('get-curr-users', users)
@@ -39,6 +35,11 @@ def disconnect():
             users.remove(user)
             emit('disconnected', user, broadcast=True)
             break
+
+@io.on('change-background')
+def changeBackground(img):
+    print("called background in server")
+    emit('change-background', img, broadcast=True, include_self=False)
 
 # -----------------chat application
 message = []

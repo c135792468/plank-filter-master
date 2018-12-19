@@ -1,10 +1,5 @@
 console.log("successfully imported")
-const socket = io.connect('https://plank-filter-master.herokuapp.com/')
-
-function changeBackground(img){
-    $('#myCanvas').css('background-image', "url(" + img + ")");
-    socket.emit('change-background', img)
-}
+import socket from './show-multiple-users.js'
 
 $(() => {
     $("#submit_handlr").on("click",() => {
@@ -51,10 +46,9 @@ $(() => {
                     console.log("what is images", images);
                     for(let img in images){
                         let new_img = document.createElement("img")
-                        let str = encodeURI(images[img])
+                        let url = "/static/imgs/" + encodeURI(images[img])
 
-
-                        new_img.src = '/static/imgs/' + str
+                        new_img.src = url
                         new_img.style.cursor = 'pointer'
                         new_img.style.backgroundSize = "cover"
                         new_img.style.backgroundPosition = "center"
@@ -62,9 +56,13 @@ $(() => {
                         new_img.width = 100
                         new_img.style.margin = "auto"
                         new_img.onclick = () => {
+                            console.log("does socket exist", socket);
+
                             console.log("trying to change background");
-                            $('#myCanvas').css('background-image', "url(/static/imgs/" + str + ")");
-                            socket.emit('change-background', str)
+
+                            $('#myCanvas').css('background-image', "url("+url+ ")");
+                            socket.emit('change-background', url)
+                            socket.emit('test')
                         }
 
                         $('#album_imgs').append(new_img)
