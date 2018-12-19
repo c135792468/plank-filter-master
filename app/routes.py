@@ -147,9 +147,12 @@ def home():
 @app.route('/album', methods=['GET', 'POST'])
 def album():
     if ('username' in session):
+        album = mongo.db.user_albums
+        user_image = mongo.db.user_images
         selected_album = getSelectedAlbum()
         image_names = getPhotosInAlbum(selected_album)
         album_names = getAlbumNames()
+        db_image_names = []
 
         user = mongo.db.user_accounts
         active_album = user.find_one({'username' : session['username']})
