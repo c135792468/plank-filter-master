@@ -8,6 +8,7 @@ $(() => {
         let files = $('#img')[0].files[0];
         fd.append('file',files);
         fd.append('filter', $('#filter option:selected').attr("value"))
+        fd.append('album_name', $('#album_name option:selected').attr("value"))
 
         $.ajax({
             url: '/filter',
