@@ -151,8 +151,6 @@ def album():
         image_names = getPhotosInAlbum(selected_album)
         album_names = getAlbumNames()
 
-<<<<<<< HEAD
-=======
         user = mongo.db.user_accounts
         active_album = user.find_one({'username' : session['username']})
         selected_album = active_album['active_album']
@@ -171,7 +169,7 @@ def album():
         set_db_image_names = set(db_image_names)
         image_names = set_images.intersection(set_db_image_names)
         print(image_names)
->>>>>>> 7020ea0f8af99eb95e8a883adba84ab7392766de
+
         return render_template('album.html', image_names=image_names, album_names=album_names, selected_album=selected_album)
     else:
         return redirect(url_for('login'))
