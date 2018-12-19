@@ -101,15 +101,15 @@ $(() => {
 function popUp(event, image){
     event.stopPropagation()
 
-    let backdrop = document.getElementById("backdrop")
-    backdrop.style.pointerEvents = "stroke"
+    $('#backdrop').css('pointer-events', 'auto')
+    $('.image').css('pointer-events', 'none')
 
     let background = document.getElementById("pop-up")
     background.style.opacity = 0.2
     
     let expanded_img = document.createElement("img")
 
-    expanded_img.id="expanded-img"
+    expanded_img.className="expanded-img"
     expanded_img.src = image
     expanded_img.height = 700
     expanded_img.width = 700
