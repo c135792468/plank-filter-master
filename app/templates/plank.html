@@ -40,8 +40,7 @@ $(document).ready(function() {
                     const socket = io.connect('https://plank-filter-master.herokuapp.com/')
                     console.log("does socket exist", socket);
                     $('#myCanvas').css('background-image', "url(" + img + ")");
-                    socket.emit("change-background", "fdfafsf")
-                    socket.emit('message', "@@@@")
+                    socket.emit("change-background", img)
                 }
             </script>
             <div id="album_imgs">

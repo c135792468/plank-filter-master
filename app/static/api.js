@@ -1,5 +1,4 @@
 console.log("successfully imported")
-import socket from './show-multiple-users.js'
 
 $(() => {
     $("#submit_handlr").on("click",() => {
@@ -56,13 +55,12 @@ $(() => {
                         new_img.width = 100
                         new_img.style.margin = "auto"
                         new_img.onclick = () => {
+                            var socket = io.connect('https://plank-filter-master.herokuapp.com/');
                             console.log("does socket exist", socket);
-
                             console.log("trying to change background");
 
                             $('#myCanvas').css('background-image', "url("+url+ ")");
                             socket.emit('change-background', url)
-                            socket.emit('test')
                         }
 
                         $('#album_imgs').append(new_img)
