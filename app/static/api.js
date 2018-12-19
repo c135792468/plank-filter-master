@@ -1,4 +1,7 @@
 console.log("successfully imported")
+const socket = io.connect('https://plank-filter-master.herokuapp.com/')
+
+import changeAllBackgrounds from './change-background.js'
 
 $(() => {
     $("#submit_handlr").on("click",() => {
@@ -41,10 +44,13 @@ $(() => {
                     empty_node.innerHTML = "There's nothing here..."
                     $('#album_imgs').append(empty_node)
                 }else{
+                    console.log("what is images", images);
                     for(let img in images){
                         let new_img = document.createElement("img")
-    
-                        new_img.src = '/static/imgs/' + images[img]
+                        let str = encodeURI(images[img])
+
+
+                        new_img.src = '/static/imgs/' + str
                         new_img.style.cursor = 'pointer'
                         new_img.style.backgroundSize = "cover"
                         new_img.style.backgroundPosition = "center"
@@ -53,9 +59,11 @@ $(() => {
                         new_img.style.margin = "auto"
                         new_img.onclick = () => {
                             console.log("trying to change background");
-                            $('#myCanvas').css('background-image', 'url(' + '/static/imgs/' + images[img] + ')');
+                            console.log("what is new string?", str);
+
+                            $('#myCanvas').css('background-image', "url(/static/imgs/" + str + ")");
                         }
-    
+
                         $('#album_imgs').append(new_img)
                     }
                 }
@@ -66,10 +74,7 @@ $(() => {
     })
 })
 
-changeBackground = (img) => {
-    console.log("trying to change background");
-    $('#myCanvas').css('background-image', 'url(' + img + ')');
-}
+
 
 
 

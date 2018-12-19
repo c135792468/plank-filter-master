@@ -5,6 +5,10 @@ io = SocketIO(app)
 
 users = []
 
+@io.on('change-background')
+def changeBackground(img):
+    emit('change-background', img, broadcast=True, include_self=False)
+
 @io.on('new-user')
 def newUser(user):
     emit('get-curr-users', users)

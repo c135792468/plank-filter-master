@@ -3,7 +3,8 @@
 {% block body %}
     <!-- landing page -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js'></script>
-    <script src="{{ url_for('static', filename='../static/api.js') }}"></script>
+    <script type='module' src="{{ url_for('static', filename='../static/api.js') }}"></script>
+
 
 <script type="text/javascript">
 $(document).ready(function() {
@@ -17,7 +18,7 @@ $(document).ready(function() {
 	});
 });
 </script>
-    <div style="margin: 0 auto; width: 100%; height: 100%;">
+    <div style="margin: 0 auto; width: 80%; height: 100%;">
         <div id="album" style="width: 100%; height: 50px; display:flex; align-items: center; margin: 30px; padding-top: 30px;">
             <form id="album-selection" method="POST" action="{{ url_for('lobby_select_album') }}">
                 <label>Album:</label>
@@ -39,7 +40,7 @@ $(document).ready(function() {
             <div id="album_imgs">
                 {% if image_names|length > 0 %}
                     {% for image in image_names %}
-                        <img onclick="changeBackground(`{{ url_for('static', filename='./imgs/' + image) }}`)"src="{{ url_for('static', filename='./imgs/' + image) }}" style="cursor: pointer; background-size:cover; background-position:center; height:100px; width: 100px; margin:auto;"/>
+                        <img onclick="changeAllBackgrounds(`{{ url_for('static', filename='./imgs/' + image) }}`)"src="{{ url_for('static', filename='./imgs/' + image) }}" style="cursor: pointer; background-size:cover; background-position:center; height:100px; width: 100px; margin:auto;"/>
                     {% endfor %}
                 {% else %}
                     <p style="text-align: center;">There's nothing in this album...</p>
@@ -63,7 +64,8 @@ $(document).ready(function() {
    	<br>
    
     <script type='module' src="{{ url_for('static', filename='../static/show-multiple-users.js') }}"></script>
-   
+    <script type='module' src="{{ url_for('static', filename='../static/change-background.js') }}"></script>
+
 
 {% endblock %}
 
