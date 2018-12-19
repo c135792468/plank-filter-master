@@ -186,6 +186,19 @@ def select_album():
         return redirect(url_for('album'))
     return redirect(url_for('login'))
 
+@app.route('/remove_image', methods=['POST'])
+def remove_image():
+    if 'username' in session:
+        user_image = mongo.db.user_images
+        selected_album = getSelectedAlbum()
+        target = os.path.join('./app/static/imgs')
+        image_name = request.form['image']
+        destination = "/".join([target, image_name])
+        os.remove(destination)
+        user_image.remove({'image_name' : image_name})
+        return redirect(url_for('album'))
+    return redirect(url_for('login'))
+
 @app.route('/uploadalbum', methods=['POST'])
 def uploadalbum():
 	if 'username' in session:
@@ -203,22 +216,3 @@ def uploadalbum():
 			user_image.insert({'user_id' : session['username'], 'image_name' : image_name, 'album_name' : selected_album})
 		return redirect(url_for('album'))
 	return redirect(url_for('login'))
-
-@app.route('/remove_image', methods=['POST'])
-def remove_image():
-	if 'username' in session:
-		user_image = mongo.db.user_images
-		selected_album = getSelectedAlbum()
-		target = os.path.join('./app/static/imgs')
-
-
-		for ffile in request.files.getlist("img"):
-			ffilename = ffile.filename
-			name = request.cookies.get('name')
-			image_name = "/".join([str(name) + '_' + str(selected_album) + '_' + ffilename])
-			destination = "/".join([target, image_name])
-			ffile.save(destination)
-			user_image.insert({'user_id' : session['username'], 'image_name' : image_name, 'album_name' : selected_album})
-		return redirect(url_for('album'))
-	return redirect(url_for('login'))
-
