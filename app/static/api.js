@@ -45,7 +45,7 @@ $(() => {
                     new_img.style.backgroundPosition = "center"
                     new_img.height = 130
                     new_img.width = 130
-                    new_img.style.paddingTop = 20
+                    // new_img.style.paddingTop = 20
                     new_img.style.margin = "auto"
                     
 
