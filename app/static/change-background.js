@@ -7,7 +7,7 @@ socket.on('connect', () => {
         console.log("changed background form someone else");
     
         let canvas = document.getElementById('myCanvas')
-        canvas.css('background-image', 'url(' + img + ')');
+        canvas.style.backgroundImage = "url("+ img +")"
     })
 })
 

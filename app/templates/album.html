@@ -68,36 +68,17 @@
     </div>
     <div id="backdrop" onclick="revert()"style="pointer-events:none; position:fixed; top:0; left:0; height:100%; width:100%;"></div>
     <script>
-        popUp = (event, image) => {
-            event.stopPropagation()
-
-            let backdrop = document.getElementById("backdrop")
-            backdrop.style.pointerEvents = "stroke"
-
-            let background = document.getElementById("pop-up")
-            background.style.opacity = 0.2
-            
-            let expanded_img = document.createElement("img")
-
-            expanded_img.id="expanded-img"
-            expanded_img.src = image
-            expanded_img.height = 700
-            expanded_img.width = 700
-            
-            document.body.appendChild(expanded_img)
-
-            expanded_img.style.position = "fixed"
-            expanded_img.style.paddingBottom = "100px"
-            expanded_img.style.marginLeft = "400px"
-        }
+        
     </script>
-    <div style="display: flex; justify-content: center;"> 
+    <div style="display: flex; height: 100%; width: 100%;"> 
         {% if image_names|length > 0 %}
-            <form method="POST" action="{{ url_for('remove_image') }}">
+            <form method="POST" action="{{ url_for('remove_image') }}" >
             {% for image in image_names %}
-                    <img onclick="popUp(event, `{{ url_for('static', filename='./imgs/' + image) }}`)" src="{{ url_for('static', filename='./imgs/' + image) }}" style="background-size:cover; background-position:center; height:200px; width:auto; margin:auto;"/>
+                <div class="img-holder" style="position: relative; display: inline-block; background-size: cover; height: 200px; width: 33vw;">
                     <input type="hidden" value="{{ image }}" class="form-control" name="image"/>
-                    <button type="submit">Delete</button>
+                    <img class='image' src="{{ url_for('static', filename='./imgs/' + image) }}" style="cursor: pointer; background-size:cover; background-position:center; height:100%; width:100%; margin:auto;"/>
+                    <div class="delete" data-value=`{{ image }}` style="cursor: pointer; text-align: center; height: 20px; width: 20px; z-index: 1; display: none; position: absolute; right:0; top: 0; background-color:white">X</div>
+                </div>
             {% endfor %}
             </form>
         {% else %}
@@ -106,5 +87,8 @@
         {% endif %}
     </div>
 </div>
+
+<script type='module' src="{{ url_for('static', filename='../static/api.js') }}"></script>
+
 {% endblock %}
 
