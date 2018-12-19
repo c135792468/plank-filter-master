@@ -65,25 +65,35 @@ def endsession():
 @app.route('/filter', methods=['GET', 'POST'])
 def index():
     if 'username' in session:
+        album = mongo.db.user_albums
+        user_image = mongo.db.user_images
+        album_names = []
         if(request.method == 'GET'):
-            return render_template('index.html')
-
+            for db_album_names in album.find({"user_id": session['username']}):
+                album_name = db_album_names['album_name']
+                album_names.append(album_name)
+            return render_template('index.html', album_names=album_names)
         elif(request.method == 'POST'):
-            ffile =	request.files["file"]
-
+            selectedalbum = request.form.get("album_name")
+            print (selectedalbum)
+            ffile = request.files["file"]
+            print("file: ", ffile.filename)
             filter = request.form.get("filter")
             image = Image.open(ffile)
             print(filter)
             #apply filter to file
             if(filter == "f1"):
+                print("HERE!!!")
                 image = image.convert('L')
             elif(filter == "f2"):
+                print("filter 2")
                 image = image.filter(ImageFilter.GaussianBlur(20))
             elif(filter == "f3"):
+                print("filter3")
                 image = image.filter(ImageFilter.CONTOUR)
-
             ts = time.time()
-
+            image_name = str(ts) + ffile.filename
+            user_image.insert({'user_id' : session['username'], 'image_name' : image_name, 'album_name' : selectedalbum})   
             filepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
             print(filepath)
             image.save(filepath)
