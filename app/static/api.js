@@ -1,7 +1,10 @@
 console.log("successfully imported")
 const socket = io.connect('https://plank-filter-master.herokuapp.com/')
 
-import changeAllBackgrounds from './change-background.js'
+function changeBackground(img){
+    $('#myCanvas').css('background-image', "url(" + img + ")");
+    socket.emit('change-background', img)
+}
 
 $(() => {
     $("#submit_handlr").on("click",() => {
@@ -42,6 +45,7 @@ $(() => {
                     let empty_node = document.createElement("p")
                     empty_node.style.textAlign = "center"
                     empty_node.innerHTML = "There's nothing here..."
+
                     $('#album_imgs').append(empty_node)
                 }else{
                     console.log("what is images", images);
@@ -59,9 +63,8 @@ $(() => {
                         new_img.style.margin = "auto"
                         new_img.onclick = () => {
                             console.log("trying to change background");
-                            console.log("what is new string?", str);
-
                             $('#myCanvas').css('background-image', "url(/static/imgs/" + str + ")");
+                            socket.emit('change-background', str)
                         }
 
                         $('#album_imgs').append(new_img)
@@ -73,6 +76,7 @@ $(() => {
         })
     })
 })
+
 
 
 
