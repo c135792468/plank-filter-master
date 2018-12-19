@@ -68,38 +68,77 @@ def index():
         if(request.method == 'GET'):
             return render_template('index.html')
 
-    elif(request.method == 'POST'):
-        ffile =	request.files["file"]
+        elif(request.method == 'POST'):
+            ffile =	request.files["file"]
 
-        filter = request.form.get("filter")
-        image = Image.open(ffile)
-        print(filter)
-        #apply filter to file
-        if(filter == "f1"):
-            image = image.convert('L')
-        elif(filter == "f2"):
-            image = image.filter(ImageFilter.GaussianBlur(20))
-        elif(filter == "f3"):
-            image = image.filter(ImageFilter.CONTOUR)
+            filter = request.form.get("filter")
+            image = Image.open(ffile)
+            print(filter)
+            #apply filter to file
+            if(filter == "f1"):
+                image = image.convert('L')
+            elif(filter == "f2"):
+                image = image.filter(ImageFilter.GaussianBlur(20))
+            elif(filter == "f3"):
+                image = image.filter(ImageFilter.CONTOUR)
 
-        ts = time.time()
+            ts = time.time()
 
-        filepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
-        print(filepath)
-        image.save(filepath)
-        openfilepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
-        return jsonify({"file": openfilepath})
+            filepath = os.path.join('./app/static/imgs', str(ts) + ffile.filename)
+            print(filepath)
+            image.save(filepath)
+            openfilepath = os.path.join('./static/imgs', str(ts) + ffile.filename)
+            return jsonify({"file": openfilepath})
     else:
         return redirect(url_for('login'))
     return ""
 
+def getSelectedAlbum():
+    user = mongo.db.user_accounts
+    active_album = user.find_one({'username' : session['username']})
+    return active_album['active_album']
+
+def getPhotosInAlbum(selected_album):
+    user_image = mongo.db.user_images
+    db_image_names = []
+
+    for db_user_images in user_image.find({"user_id": session['username'], "album_name": selected_album}):
+        db_image_name = db_user_images['image_name']
+        db_image_names.append(db_image_name)
+
+    images = os.listdir('./app/static/imgs')
+    set_images = set(images)
+    image_names = set_images.intersection(db_image_names)
+
+    return image_names
+
+def getAlbumNames():
+    album = mongo.db.user_albums
+    album_names = []
+
+    for db_album_names in album.find({"user_id": session['username']}):
+        album_name = db_album_names['album_name']
+        album_names.append(album_name)
+
+    return album_names
+
+def selectAlbum(album_name):
+    user = mongo.db.user_accounts
+    selected_album = user.find_one({'username' : session['username']})
+    selected_album['active_album'] = album_name
+    user.save(selected_album)
+
 @app.route('/lobby')
 def lobby():
-        if 'username' in session:
-        	name = request.cookies.get('name')
-        	print(name)
-        	return render_template('plank.html', name_=name)
-        return redirect(url_for('login'))
+    if 'username' in session:
+        name = request.cookies.get('name')
+
+        selected_album = getSelectedAlbum()
+        image_names = getPhotosInAlbum(selected_album)
+        album_names = getAlbumNames()
+
+        return render_template('plank.html', name_=name, selected_album=selected_album,image_names=image_names,album_names=album_names )
+    return redirect(url_for('login'))
 
 @app.route('/')
 def home():
@@ -107,14 +146,13 @@ def home():
 
 @app.route('/album', methods=['GET', 'POST'])
 def album():
-    print("this is session in album route", session)
-    print("is username in session?", 'username' in session)
     if ('username' in session):
-        album = mongo.db.user_albums
-        user_image = mongo.db.user_images
-        album_names = []
-        db_image_names = []
+        selected_album = getSelectedAlbum()
+        image_names = getPhotosInAlbum(selected_album)
+        album_names = getAlbumNames()
 
+<<<<<<< HEAD
+=======
         user = mongo.db.user_accounts
         active_album = user.find_one({'username' : session['username']})
         selected_album = active_album['active_album']
@@ -133,6 +171,7 @@ def album():
         set_db_image_names = set(db_image_names)
         image_names = set_images.intersection(set_db_image_names)
         print(image_names)
+>>>>>>> 7020ea0f8af99eb95e8a883adba84ab7392766de
         return render_template('album.html', image_names=image_names, album_names=album_names, selected_album=selected_album)
     else:
         return redirect(url_for('login'))
@@ -149,15 +188,24 @@ def create_album():
 		return 'That album already exists'
 	return redirect(url_for('login'))
 
+@app.route('/lobby_select_album', methods=['POST'])
+def lobby_select_album():
+    if 'username' in session:
+        selectAlbum(request.form['album_name'])
+        selected_album = getSelectedAlbum()
+        image_names = getPhotosInAlbum(selected_album)
+
+        return jsonify({'imgs':list(image_names)})
+    else:
+        return redirect(url_for('login'))
+
 @app.route('/select_album', methods=['POST'])
 def select_album():
-	if 'username' in session:
-		user = mongo.db.user_accounts
-		selected_album = user.find_one({'username' : session['username']})
-		selected_album['active_album'] = request.form['album_name']
-		user.save(selected_album)
-		return redirect(url_for('album'))
-	return redirect(url_for('login'))
+    if 'username' in session:
+        selectAlbum(request.form['album_name'])
+
+        return redirect(url_for('album'))
+    return redirect(url_for('login'))
 
 @app.route('/uploadalbum', methods=['POST'])
 def uploadalbum():

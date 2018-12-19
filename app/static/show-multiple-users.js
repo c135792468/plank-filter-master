@@ -22,9 +22,16 @@ socket.on('connect', () => {
     if(!connected){
         console.log("cookies:", document.cookie);
         let cookies = document.cookie
-        var username = cookies.substring(9, cookies.length-2)
+        let split_cookies = cookies.split('; ')
+        let username
+        for(let cookie of split_cookies){
+            if(cookie[0] === 'n'){
+                let tem = cookie.split('=')
+                username = tem[1]
+            }
+        }
         curr_users.push({socketid: socket.id, name: "", x:295 , y:460})
-
+        
         //add to client side users and server side
         socket.emit('new-user', username)
         connected = true

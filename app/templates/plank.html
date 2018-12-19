@@ -3,6 +3,8 @@
 {% block body %}
     <!-- landing page -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js'></script>
+    <script src="{{ url_for('static', filename='../static/api.js') }}"></script>
+
 <script type="text/javascript">
 $(document).ready(function() {
 	var socket = io.connect('https://plank-filter-master.herokuapp.com/');
@@ -15,27 +17,38 @@ $(document).ready(function() {
 	});
 });
 </script>
-    <div style="margin: 0 auto; width: 1000px;">
+    <div style="margin: 0 auto; width: 100%; height: 100%;">
+        <div id="album" style="width: 100%; height: 50px; display:flex; align-items: center; margin: 30px; padding-top: 30px;">
+            <form id="album-selection" method="POST" action="{{ url_for('lobby_select_album') }}">
+                <div class="form-group" style="width: 150px; padding-right: 30px;">
+                    <div class="input-group">
+                        <select name="album_name" class="selectpicker form-control">
+                            {% for album_name in album_names %}
+                                {% if album_name == selected_album %}
+                                    <option value="{{ album_name }}" selected>{{ album_name }}</option>
+                                {% else %}
+                                    <option value="{{ album_name }}">{{ album_name }}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button id="get-album" type="button" class="btn btn-primary btn-block">Select</button>
+                </div>
+            </form>
 
-        <div id="filter">
-            <form class="text-center" method="POST" name="upload" enctype="multipart/form-data" action="/filter">
-				<input type="file" id="img" name="img"/>
-                
-				<br/>
-				<select id="filter" name="filter">
-					<option value="f1">Filter 1</option>
-					<option value="f2">Filter 2</option>
-					<option value="f3">Filter 3</option>
-				</select>
-				
-				<button id="submit_handlr" type="button">submit</button>
-
-			</form>
-
+            <div id="album_imgs">
+                {% if image_names|length > 0 %}
+                    {% for image in image_names %}
+                        <img id="img"src="{{ url_for('static', filename='./imgs/' + image) }}" style="cursor: pointer; background-size:cover; background-position:center; height:130px; width: 130px; margin:auto;"/>
+                    {% endfor %}
+                {% else %}
+                    <p style="text-align: center;">There's nothing in this album...</p>
+                {% endif %}
+            </div>
         </div>
     
 		<div id = 'canvasBackGround' style="display: inline-block;">
-			<canvas id="myCanvas" width="600" height="480"></canvas>
+			<canvas id="myCanvas" width="600px" height="480"></canvas>
 		</div>
 		<div style="display: inline-block;">
 	    	<div class="content">
@@ -45,11 +58,6 @@ $(document).ready(function() {
 	    	<input type="text" placeholder="message" id="myMessage">
             <button id="sendbutton">Send</button>
 
-
-	    	<!-- <form id="upload-form" action="{{ url_for('uploadchat') }}" method="POST" enctype="multipart/form-data">
-        		<input type="file" name="img" accept="image/*" onchange="readURL(event)"/>
-        		<input type="submit" value="Upload"/>
-   			</form> -->
 	    </div>
    	</div>
    	<br>

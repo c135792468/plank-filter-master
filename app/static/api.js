@@ -24,7 +24,40 @@ $(() => {
         }) 
     
     })
-        
+
+    $('#get-album').on('click', () => {
+        $.ajax({
+            url: '/lobby_select_album',
+            type: 'POST',
+            data: $('#album-selection').serialize(),
+            success: (res) => {
+                console.log("response for select labum");
+                $('#album_imgs').empty()
+
+                let images = res.imgs
+
+                for(let img in images){
+                    let new_img = document.createElement("img")
+
+                    new_img.src = '/static/imgs/' + images[img]
+                    new_img.style.cursor = 'pointer'
+                    new_img.style.backgroundSize = "cover"
+                    new_img.style.backgroundPosition = "center"
+                    new_img.height = 130
+                    new_img.width = 130
+                    // new_img.style.paddingTop = 20
+                    new_img.style.margin = "auto"
+                    
+
+                    $('#album_imgs').append(new_img)
+                }
+            }
+
+        })
+    })
+
+    
+
 })
 
 

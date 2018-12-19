@@ -42,7 +42,11 @@
                             <div class="input-group">
                             <select name="album_name" class="selectpicker form-control">
                                 {% for album_name in album_names %}
-                                <option value="{{ album_name }}">{{ album_name }}</option>
+                                    {% if album_name == selected_album %}
+                                        <option value="{{ album_name }}" selected>{{ album_name }}</option>
+                                    {% else %}
+                                        <option value="{{ album_name }}">{{ album_name }}</option>
+                                    {% endif %}                                
                                 {% endfor %}
                             </select>
                             </div>
@@ -90,7 +94,9 @@
     <div> 
         {% if image_names|length > 0 %}
             {% for image in image_names %}
-            <img onclick="popUp(event, `{{ url_for('static', filename='./imgs/' + image) }}`)" src="{{ url_for('static', filename='./imgs/' + image) }}" style="background-size:cover; background-position:center; height:200px; width:33%; margin:auto;"/>
+            <span class="thumbnail">
+                <img onclick="popUp(event, `{{ url_for('static', filename='./imgs/' + image) }}`)" src="{{ url_for('static', filename='./imgs/' + image) }}" style="cursor: pointer; background-size:cover; background-position:center; height:200px; width:33%; margin:auto;"/>
+            </span>
             {% endfor %}
         {% else %}
             <br>
