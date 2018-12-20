@@ -89,3 +89,24 @@ Data is stored in MongoDB hosted by mLab
 
 `register()`
 > Submits a POST request with entered user information that is compared with what is stored in the database. Username functions as a unique key. If the username does not trigger a conflict. A user account is created and the user is provided with a session granting access to the website.
+
+`getSelectedAlbum()`
+> Retrieves the last album that was selected by the user. The selection is persisitant throughout multiple sessions
+
+`getPhotosInAlbum()`
+> Retrieves the images that are stored in the selected album.
+
+`getAlbumNames()`
+> Retrieves the list of all the albums the user has created.
+
+`selectAlbum()`
+> Declares to the databse which album the user has selelcted. This information is stored to allow for multiple session functionality.
+
+`create_album()`
+> Submits a POST request with entered album name that is compared with what is stored in the database. although album name does not function as a unique key, the system will not permit duplicate albums. 
+
+`remove_image()`
+> This will remove all reference to the image from the datbase delete the hard file from storage.
+
+`uploadalbum()`
+> Submits a POST resquest with the entered image name. Then the image is assigned to connectged with the logged in user, assigned to the seleced album and a reference is made within the database. The hard image file is then physically stored.
